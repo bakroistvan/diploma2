@@ -1,0 +1,359 @@
+% This file was created with JabRef 2.10b2.
+% Encoding: UTF8
+
+
+@InProceedings{Alekseychuk2012,
+  Title                    = {Hierarchical recursive running median},
+  Author                   = {Alekseychuk, A.},
+  Booktitle                = {Image Processing (ICIP), 2012 19th IEEE International Conference on},
+  Year                     = {2012},
+  Month                    = {Sept},
+  Pages                    = {109-112},
+
+  Abstract                 = {Median filter was long known in image processing for its high computational costs. Recently, an algorithm was developed which is able to compute median on integer-valued images in a roughly constant average time. A new O(1) algorithm presented here further improves the aforementioned one, being at the time of writing the lowest theoretical complexity algorithm for calculation of 2D and higher dimensional median filters. The algorithm scales naturally to higher precision (e.g. 16-bit) integer data without any modifications. Its adaptive version offers additional speed-up for images showing compact modes in gray-value distribution. The algorithm will be useful for high bit depth data or on hardware without SIMD extensions. A C/C++ implementation is available under GPL for research purposes.},
+  Doi                      = {10.1109/ICIP.2012.6466807},
+  File                     = {Alekseychuk2012.pdf:Alekseychuk2012.pdf:PDF},
+  ISSN                     = {1522-4880},
+  Keywords                 = {C++ language;computational complexity;image processing;median filters;C-C++ implementation;O(1) algorithm;SIMD extension;complexity algorithm;gray-value distribution;hierarchical recursive running median filter;image processing;integer-valued image;single instruction multiple data;Approximation algorithms;Computational complexity;Histograms;Runtime;Signal processing algorithms;Vegetation;computational complexity;computational efficiency;filtering algorithms;nonlinear filters}
+}
+
+@Article{Boesse2004,
+  Title                    = {Digital imaging and analysis of dusty plasmas },
+  Author                   = {C.M. Boessé and M.K. Henry and T.W. Hyde and L.S. Matthews},
+  Journal                  = {Advances in Space Research },
+  Year                     = {2004},
+  Note                     = {Scientific Exploration, Planetary Protection, Active Experiments and Dusty Plasmas },
+  Number                   = {11},
+  Pages                    = {2374 - 2378},
+  Volume                   = {34},
+
+  Abstract                 = {Dust particles immersed within a plasma environment, such as those found in planetary rings or cometary environments, will acquire an electric charge. If the ratio of interparticle potential energy to average kinetic energy is high enough the particles will form either a ‘liquid’ structure with short-range ordering or a crystalline structure with long-range ordering. Since their discovery in laboratory environments in 1994, such crystals have been the subject of a variety of experimental, theoretical, and numerical investigations. Laboratory experiments analyzing the behavior of dust grains in a plasma rely on optical diagnostics to provide data about the system in a non-perturbative manner. In the past, capturing, imaging, and analyzing crystalline structure in dusty plasmas has been a non-trivial problem. Utilizing digital imaging and analysis systems, data capture, image formatting, and analysis can be done quickly. Following data capture, image analysis is conducted using modified Particle Image Velocimetry and Particle Tracking Velocimetry algorithms. The data extracted is then used to construct Voronoi diagrams, calculate particle density, inter-particle spacing, pair correlation functions, and thermal energy. From this data other dust plasma parameters can be inferred such as inter-particle forces and grain charges.},
+  Doi                      = {http://dx.doi.org/10.1016/j.asr.2003.02.069},
+  File                     = {Dust_image/Boesse2004.pdf:Dust_image/Boesse2004.pdf:PDF},
+  ISSN                     = {0273-1177},
+  Keywords                 = {Dusty plasmas},
+  Url                      = {http://www.sciencedirect.com/science/article/pii/S0273117704005976}
+}
+
+@Unpublished{Donko_SZFKI_szeminarium_2011,
+  Title                    = {Erősen csatolt plazmák molekuladinamikai szimulációja},
+  Author                   = {Donkó, Zoltán},
+  Year                     = {2011},
+
+  File                     = {KFKI/Donko_SZFKI_szeminarium_2011.pdf:KFKI/Donko_SZFKI_szeminarium_2011.pdf:PDF}
+}
+
+@Article{Feng2007,
+  Title                    = {Accurate particle position measurement from images},
+  Author                   = {Feng, Y. and Goree, J. and Liu, Bin},
+  Journal                  = {Review of Scientific Instruments},
+  Year                     = {2007},
+  Number                   = {5},
+  Pages                    = {-},
+  Volume                   = {78},
+
+  Doi                      = {http://dx.doi.org/10.1063/1.2735920},
+  Eid                      = {053704},
+  File                     = {Feng2007.pdf:Particle_pos/Feng2007.pdf:PDF},
+  Url                      = {http://scitation.aip.org/content/aip/journal/rsi/78/5/10.1063/1.2735920}
+}
+
+@Article{Hartmann2013,
+  Title                    = {Magnetoplasmons in Rotating Dusty Plasmas},
+  Author                   = {Hartmann, Peter and Donk\'o, Zolt\'an and Ott, Torben and K\"ahlert, Hanno and Bonitz, Michael},
+  Journal                  = {Phys. Rev. Lett.},
+  Year                     = {2013},
+
+  Month                    = {Oct},
+  Pages                    = {155002},
+  Volume                   = {111},
+
+  Doi                      = {10.1103/PhysRevLett.111.155002},
+  File                     = {KFKI/Hartmann2013.pdf:KFKI/Hartmann2013.pdf:PDF},
+  Issue                    = {15},
+  Numpages                 = {5},
+  Publisher                = {American Physical Society},
+  Url                      = {http://link.aps.org/doi/10.1103/PhysRevLett.111.155002}
+}
+
+@Article{HartmannP2013,
+  Title                    = {Single exposure three-dimensional imaging of dusty plasma clusters},
+  Author                   = {Hartmann, Péter and Donkó, I and Donkó Z},
+  Journal                  = {Rev. Sci. Instrum.},
+  Year                     = {2013},
+  Pages                    = {023501},
+  Volume                   = {84},
+
+  File                     = {KFKI/HartmannP2013.pdf:KFKI/HartmannP2013.pdf:PDF},
+  Numpages                 = {1-5},
+  Url                      = {http://arxiv.org/abs/1212.1415}
+}
+
+@Article{Hartmann2010,
+  Title                    = {Crystallization Dynamics of a Single Layer Complex Plasma},
+  Author                   = {Hartmann, Peter and Douglass, Angela and Reyes, Jorge C. and Matthews, Lorin S. and Hyde, Truell W. and Kov\'acs, Anik\'o and Donk\'o, Zolt\'an},
+  Journal                  = {Phys. Rev. Lett.},
+  Year                     = {2010},
+
+  Month                    = {Sep},
+  Pages                    = {115004},
+  Volume                   = {105},
+
+  Doi                      = {10.1103/PhysRevLett.105.115004},
+  File                     = {KFKI/Hartmann2010.pdf:KFKI/Hartmann2010.pdf:PDF},
+  Issue                    = {11},
+  Numpages                 = {4},
+  Publisher                = {American Physical Society},
+  Url                      = {http://link.aps.org/doi/10.1103/PhysRevLett.105.115004}
+}
+
+@Article{Hartmann2011,
+  Title                    = {Static and dynamic shear viscosity of a single-layer complex plasma},
+  Author                   = {Hartmann, Peter and S\'andor, M\'at\'e Csaba and Kov\'acs, Anik\'o and Donk\'o, Zolt\'an},
+  Journal                  = {Phys. Rev. E},
+  Year                     = {2011},
+
+  Month                    = {Jul},
+  Pages                    = {016404},
+  Volume                   = {84},
+
+  Doi                      = {10.1103/PhysRevE.84.016404},
+  File                     = {KFKI/Hartmann2011.pdf:KFKI/Hartmann2011.pdf:PDF},
+  Issue                    = {1},
+  Numpages                 = {6},
+  Publisher                = {American Physical Society},
+  Url                      = {http://link.aps.org/doi/10.1103/PhysRevE.84.016404}
+}
+
+@Article{Huang1979,
+  Title                    = {A fast two-dimensional median filtering algorithm},
+  Author                   = {Huang, T. and Yang, G. and Tang, G.},
+  Journal                  = {Acoustics, Speech and Signal Processing, IEEE Transactions on},
+  Year                     = {1979},
+
+  Month                    = {Feb},
+  Number                   = {1},
+  Pages                    = {13-18},
+  Volume                   = {27},
+
+  Abstract                 = {We present a fast algorithm for two-dimensional median filtering. It is based on storing and updating the gray level histogram of the picture elements in the window. The algorithm is much faster than conventional sorting methods. For a window size of m × n, the computer time required is 0(n).},
+  Doi                      = {10.1109/TASSP.1979.1163188},
+  File                     = {Huang1979.pdf:Huang1979.pdf:PDF},
+  ISSN                     = {0096-3518},
+  Keywords                 = {Filtering algorithms;Filters;Histograms;Image processing;Noise level;Noise reduction;Smoothing methods;Sorting;Speech processing;Tail}
+}
+
+@Electronic{Intel,
+  Title                    = {Intel® Xeon Phi™ Product Family},
+  Author                   = {Intel},
+  Url                      = {http://www.intel.com/content/www/us/en/processors/xeon/xeon-phi-detail.html},
+
+  __markedentry            = {[bakro:6]},
+  Owner                    = {bakro},
+  Timestamp                = {2014.11.02}
+}
+
+@Electronic{mic,
+  Title                    = {Intel® Many Integrated Core Architecture (Intel® MIC Architecture)},
+  Author                   = {Intel},
+  Url                      = {http://www.intel.com/content/www/us/en/architecture-and-technology/many-integrated-core/intel-many-integrated-core-architecture.html},
+
+  __markedentry            = {[bakro:6]},
+  Owner                    = {bakro},
+  Timestamp                = {2014.11.02}
+}
+
+@Article{Merlino2006,
+  Title                    = {Dusty plasmas and applications in space and industry},
+  Author                   = {Merlino, Robert L},
+  Journal                  = {Plasma Physics Applied},
+  Year                     = {2006},
+  Pages                    = {73--110},
+  Volume                   = {81},
+
+  File                     = {Dust/Merlino2006.pdf:Dust/Merlino2006.pdf:PDF}
+}
+
+@Book{Munshi2011,
+  Title                    = {OpenCL Programming Guide},
+  Author                   = {Munshi, Aaftab},
+  Publisher                = {Addison-Wesley},
+  Year                     = {2011},
+
+  File                     = {OpenCL/Munshi2011.pdf:OpenCL/Munshi2011.pdf:PDF},
+  ISBN                     = {9780321749642}
+}
+
+@Proceedings{Oxtoby2010,
+  Title                    = {Tracking interacting dust: comparison of tracking and state estimation techniques for dusty plasmas},
+  Year                     = {2010},
+  Volume                   = {7698},
+
+  Abstract                 = {When tracking a target particle that is interacting with nearest neighbors in a known way, positional data of the neighbors can be used to improve the state estimate. Effects of the accuracy of such positional data on the target track accuracy are investigated in this paper, in the context of dusty plasmas. In kinematic simulations, notable improvement in the target track accuracy was found when including all nearest neighbors in the state estimation filter and tracking algorithm, whereas the track accuracy was not significantly improved by higher-accuracy measurement techniques. The state estimation algorithm, involving an extended Kalman filter, was shown to either remove or significantly reduce errors due to "pixel-locking". For the purposes of determining the precise particle locations, it is concluded that the simplified state estimation algorithm can be a viable alternative to using more computationally-intensive measurement techniques.},
+  Author                   = {Oxtoby, Neil P. and Ralph, Jason F. and Samsonov, Dmitry and Durniak, Céline},
+  Doi                      = {10.1117/12.852421},
+  File                     = {Dust_image/Oxtoby2010.pdf:Dust_image/Oxtoby2010.pdf:PDF},
+  Journal                  = {Proc. SPIE},
+  Pages                    = {76980C-76980C-11},
+  Url                      = { http://dx.doi.org/10.1117/12.852421}
+}
+
+@Article{Perreault2007,
+  Title                    = {Median Filtering in Constant Time},
+  Author                   = {Perreault, S. and Hebert, P.},
+  Journal                  = {Image Processing, IEEE Transactions on},
+  Year                     = {2007},
+
+  Month                    = {Sept},
+  Number                   = {9},
+  Pages                    = {2389-2394},
+  Volume                   = {16},
+
+  Abstract                 = {The median filter is one of the basic building blocks in many image processing situations. However, its use has long been hampered by its algorithmic complexity O(tau) of in the kernel radius. With the trend toward larger images and proportionally larger filter kernels, the need for a more efficient median filtering algorithm becomes pressing. In this correspondence, a new, simple, yet much faster, algorithm exhibiting O(1) runtime complexity is described and analyzed. It is compared and benchmarked against previous algorithms. Extensions to higher dimensional or higher precision data and an approximation to a circular kernel are presented, as well.},
+  Doi                      = {10.1109/TIP.2007.902329},
+  File                     = {Perreault2007.pdf:Perreault2007.pdf:PDF},
+  ISSN                     = {1057-7149},
+  Keywords                 = {computational complexity;filtering theory;image processing;median filters;algorithmic runtime complexity;filter kernel radius;image processing;median filtering algorithm;Algorithm design and analysis;Complexity theory;Filtering algorithms;Filtering theory;Filters;Histograms;Image processing;Kernel;Pressing;Runtime;Algorithms;complexity theory;image processing;median filters;Algorithms;Computer Graphics;Image Enhancement;Image Interpretation, Computer-Assisted;Numerical Analysis, Computer-Assisted;Reproducibility of Results;Sensitivity and Specificity;Time Factors;User-Computer Interface}
+}
+
+@Manual{opencl-1.2,
+  Title                    = {The OpenCL Specification, version 1.2},
+  Author                   = {{The Khronos OpenCL Working Group}},
+  Month                    = {14 Nov.},
+  Year                     = {2012},
+
+  __markedentry            = {[bakro:6]},
+  File                     = {opencl-1.2.pdf:opencl-1.2.pdf:PDF;opencl-1.2.pdf:home/bakro/Documents/workspace/diploma2/src/bib/opencl-1.2.pdf:PDF},
+  Owner                    = {bakro},
+  Timestamp                = {2014.11.02},
+  Url                      = {https://www.khronos.org/registry/cl/specs/opencl-1.2.pdf}
+}
+
+@Article{Weiss2006,
+  Title                    = {Fast Median and Bilateral Filtering},
+  Author                   = {Weiss, Ben},
+  Journal                  = {ACM Trans. Graph.},
+  Year                     = {2006},
+
+  Month                    = jul,
+  Number                   = {3},
+  Pages                    = {519--526},
+  Volume                   = {25},
+
+  Acmid                    = {1141918},
+  Address                  = {New York, NY, USA},
+  Doi                      = {10.1145/1141911.1141918},
+  File                     = {Weiss2006.pdf:Weiss2006.pdf:PDF},
+  ISSN                     = {0730-0301},
+  Issue_date               = {July 2006},
+  Keywords                 = {SIMD, algorithms, bilateral filtering, complexity, data structures, histograms, image processing, median filtering, rank-order filtering, sorting, vector processing},
+  Numpages                 = {8},
+  Publisher                = {ACM},
+  Url                      = {http://doi.acm.org/10.1145/1141911.1141918}
+}
+
+@InProceedings{Zhang2014,
+  Title                    = {100+ Times Faster Weighted Median Filter (WMF)},
+  Author                   = {Zhang, Qi and Xu, Li and Jia, Jiaya},
+  Year                     = {2014},
+  Month                    = {June},
+
+  File                     = {Zhang2014.pdf:Zhang2014.pdf:PDF},
+  Journal                  = {The IEEE Conference on Computer Vision and Pattern Recognition (CVPR)}
+}
+
+@Electronic{centos,
+  Title                    = {CentOS Project},
+  Url                      = {http://www.centos.org/},
+
+  __markedentry            = {[bakro:6]},
+  Owner                    = {bakro},
+  Timestamp                = {2014.11.02}
+}
+
+@Electronic{eclipse,
+  Title                    = {Eclipse - The Eclipse Foundation open source community website.},
+  Url                      = {https://www.eclipse.org},
+
+  __markedentry            = {[bakro:6]},
+  Owner                    = {bakro},
+  Timestamp                = {2014.11.02}
+}
+
+@Electronic{gcc,
+  Title                    = {GCC, the GNU Compiler Collection - GNU Project - Free Software Foundation (FSF)},
+  Url                      = {http://gcc.gnu.org/},
+
+  __markedentry            = {[bakro:6]},
+  Owner                    = {bakro},
+  Timestamp                = {2014.11.02}
+}
+
+@Electronic{intel_ocl,
+  Title                    = {INTEL OpenCL SDK},
+  Url                      = {https://software.intel.com/en-us/vcsource/tools/opencl-sdk-xe},
+
+  __markedentry            = {[bakro:6]},
+  Owner                    = {bakro},
+  Timestamp                = {2014.11.02}
+}
+
+@Electronic{nsight,
+  Title                    = {NVIDIA Nsight Visual Studio Edition},
+  Url                      = {https://developer.nvidia.com/nvidia-nsight-visual-studio-edition},
+
+  __markedentry            = {[bakro:6]},
+  Owner                    = {bakro},
+  Timestamp                = {2014.11.02}
+}
+
+@Electronic{nvidia_driver,
+  Title                    = {NVIDIA drivers},
+  Url                      = {http://www.nvidia.com/Download/index.aspx},
+
+  __markedentry            = {[bakro:6]},
+  Owner                    = {bakro},
+  Timestamp                = {2014.11.02}
+}
+
+@Electronic{ocl_guide,
+  Title                    = {OpenCL Programming Guide - examples},
+  Url                      = {https://code.google.com/p/opencl-book-samples/source/checkout},
+
+  __markedentry            = {[bakro:6]},
+  Owner                    = {bakro},
+  Timestamp                = {2014.11.02}
+}
+
+@Manual{,
+  Title                    = {OpenCL Programming Guide for Mac},
+  Month                    = {08 Aug.},
+  Organization             = {Apple Inc.},
+  Year                     = {2013},
+
+  File                     = {OpenCL/OpenCL_apple_ProgGuide.pdf:OpenCL/OpenCL_apple_ProgGuide.pdf:PDF},
+  Owner                    = {bakro},
+  Timestamp                = {2014.11.02}
+}
+
+@comment{jabref-meta: protectedFlag:true;}
+
+@comment{jabref-meta: pdfDirectory:.;}
+
+@comment{jabref-meta: groupsversion:3;}
+
+@comment{jabref-meta: groupstree:
+0 AllEntriesGroup:;
+1 ExplicitGroup:Median\;0\;Alekseychuk2012\;Huang1979\;Perreault2007\;
+Weiss2006\;Zhang2014\;;
+1 ExplicitGroup:Particle_pos\;0\;Feng2007\;;
+1 ExplicitGroup:KFKI\;0\;Donko_SZFKI_szeminarium_2011\;Hartmann2010\;H
+artmann2011\;Hartmann2013\;HartmannP2013\;;
+1 ExplicitGroup:Dust_image\;0\;Boesse2004\;Oxtoby2010\;;
+1 ExplicitGroup:Dust\;0\;Merlino2006\;;
+1 ExplicitGroup:OpenCL\;0\;Munshi2011\;intel_ocl\;nsight\;nvidia_drive
+r\;ocl_guide\;opencl-1.2\;;
+1 ExplicitGroup:Phi\;0\;Intel\;mic\;;
+1 ExplicitGroup:linux\;0\;centos\;eclipse\;gcc\;;
+}
+

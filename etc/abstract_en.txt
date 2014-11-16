@@ -1,0 +1,16 @@
+dusty plasma, plasma, particle detecting, image processing, OpenCL, GPGPU
+
+
+In my thesis I show the apparatus of the dusty plasma's experiment.
+During the experiment the particles are in crystal structure and photos are taken of them with high speed camera.
+Processing these images will result the particle's position and the system's statistical quantities.
+
+Than I describe the detection of the particles using filtering and adaptive decision level.
+Instead of using the common FIR Gauss filter I implement the more effective median filter.
+For computing the particle's position I implement the momentum method, which take more steps but one can achieve sub-pixel resolution.
+
+After I overview the OpenCL framework, which is used for parallel programming.
+Using this statements and the available device's properties I composed the program's steps.
+These steps are investigated for achieving faster run time.
+I benchmark the program's run time on CPU, on GPU and on many integrated core card.
+Finally I put the program inside the image acquiring softver of the high speed camera for online processing.

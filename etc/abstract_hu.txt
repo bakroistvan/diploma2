@@ -1,0 +1,15 @@
+poros plazma, plazma, részecske detektálás, képfeldolgozás, OpenCL, GPGPU
+
+Dolgozatomban bemutatom a poros plazma kísérletek apparátusát.
+A kísérlet során a kristályrácsba rendeződő részecskékről egy nagy sebességű kamerával fényképek készülnek.
+Ezen képek feldolgozásával a részecskék pozícióját és a rendszer statisztikai mennyiségeit számítom.
+
+Ismertettem a részecske detektálásának módszerét szűrés és adaptív döntési küszöb használatával.
+Az elterjedt FIR Gauss szűrő helyett a hatékonyabb medián szűrőt javasoltam és alkalmaztam.
+A pozíció számítására a momentum módszert implementáltam, ami nagyobb számítási energiát igényel, de szubpixeles felbontást lehet vele elérni.
+
+Ezután áttekintem az OpenCL keretrendszert, amit a párhuzamos program megírásának segítségére használtam.
+Az itt ismertetett megállapításokat és a használandó eszközök tulajdonságait figyelembe véve állítottam össze a párhuzamos program lépéseit, amit részleteztem is.
+Az elkészült programokat CPU-n, GPU-n és multiprocesszoros kártyán is futtatva a futási idejüket összevetettem.
+A programot beillesztem a nagy sebességű kamera képfelvevő szoftverébe az online feldolgozás végett.
+
