@@ -1,7 +1,7 @@
 %----------------------------------------------------------------------------
 \chapter{A poros plazma kísérlet}
 %----------------------------------------------------------------------------
-\section{Bevezető}
+
 	A poros plazma kísérlet ionizált nemesgáz és az abba szórt porrészecskék megfigyeléséből áll.
 	Adott alacsony nyomású gáz terében elhelyezett elektródákra kapcsolt váltakozó feszültséggel 
 	lehetséges plazmát létrehozni. A váltakozó villamos tér a töltéssel rendelkező elektronokra 
@@ -20,9 +20,8 @@
 	A különféle erők nagysága a porrészecskék nagyságától különféleképpen skálázódik. Elhanyagolásokat
 	ennek megfelelően tehetünk.
 	\begin{description}
-		\item[Gravitációs $F_g$ erő:] Mikrogravitációban végzett kísérletek kivételével a porrészecskére
-			ható gravitációs erő lineárisan arányos a tömegével. Nanométer nagyságú részecskék esetén
-			elhanyagolható, de a jelen esetben használt mikrométer nagyságú részecskék esetén dominánsak,
+		\item[Gravitációs $F_g$ erő:] Mikrogravitációban végzett kísérletek és nanométer nagyságú részecskék esetén
+			elhanyagolhatóak, de a jelen esetben használt mikrométer nagyságú részecskék esetén dominánsak,
 		\item[Villamos tér keltette $F_e$ erő:] A porrészecske töltésével és a villamos tér nagyságával
 			arányos. A megfelelően irányított villamos térrel lehetséges a részecskék levitációja,  
 		\item[Háttératomon való szóródás $F_n$:] A porrészecske driftje során a háttératomokkal való
@@ -58,19 +57,18 @@
 	A középvákuumú működéshez kétlépéses vákuumszivattyút kell alkalmazni.
 	
 	
-	
 	A kamra sematikus ábrája a \ref{fig:meresch}. ábrán látható.
 	A porrészecskék levitációjáért a villamos tér felelős. A síkba való zárás parabolikus
 	potenciállal lehetséges. Az ilyen tér létrehozása a következő elektróda elrendezéssel lehetséges:
 	alul elhelyezett korong alakú elektróda, ami felett egy gyűrű alakú elektróda helyezkedik el.
 	Az ilyen elektródarendszerre kapcsolt váltakozó feszültség a beszórt porrészecskéket lebegtetni
-	tudja. Továbbá a részecskék követéséhez lézerrel megvilágítjuk és nagysebességű kamerával
+	tudja. Továbbá a részecskék követéséhez azokat lézerrel megvilágítjuk és nagysebességű kamerával
 	felvételt készítünk róla.
 	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.9\columnwidth]{figures/eps/dust_camera.eps}
-		\caption{A mérési elrendezés sematikus ábrája (forrás: \cite{Merlino2006})} 
+		\caption[A mérési elrendezés sematikus ábrája]{A mérési elrendezés sematikus ábrája (forrás: \cite{Merlino2006})} 
 		\label{fig:meresch}
 	\end{figure}
 	
@@ -92,11 +90,11 @@
 		\item Porrészecske tömege. $6.64\cdot10^{-14} kg$
 		\item Látható porrészecskék száma: $\sim 2500$
 		\item Megvilágító lézer: $200mW\quad @ \quad 532nm$
-		\item Kamera: $1.4MPixel\ @\ 100 FPS$
+		\item Kamera: $1.4 MPixel\ @\ 100 FPS$
 	\end{myitemize*}
-	A kamra alsó elektródáját lehetséges egy motorral forgásba hozni. Ezáltal a kamrában lévő gáz is
-	forgásba jön, ami a porrészecskékre az $F_i$ ionsodrási erővel hatva nagy mágneses tér Lorentz
-	erejének feleltethető meg.
+	A kamra alsó elektródáját lehetséges egy motorral forgásba hozni. Az elektróda felületének érdessége által a kamrában
+	lévő gáz is forgásba jön. A gáz forgása az $F_i$ ionsodrási erővel hat a porrészecskékre.
+	A forgó rendszert nagy mágneses tér Lorentz erejének feleltethető meg.
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.9\columnwidth]{figures/eps/dusty2.eps}
@@ -122,7 +120,7 @@
 	A \ref{fig:captures}. ábrán látható álló és forgó alsó elektródájú kísérlet során a
 	porrészecskékről készült kép.
 	
-	\begin{figure}[H]
+	\begin{figure}[!ht]
 		\centering
 		\subfloat[Álló elektróda esetén sok $\left(\sim 1500\right)$ részecske]{
 			\includegraphics[width=0.95\columnwidth]{figures/eps/000047659380.eps}%

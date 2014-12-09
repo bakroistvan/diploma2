@@ -13,8 +13,8 @@
 	A Linux diszrók közül a CentOS-re \cite{centos} esett a választás, ami 
 	csupán a fejlesztőkörnyezet egyszerűbb telepítése végett történt így.
 
-\section{Software Developement Kit-ek (SDK) telepítése} \label{sect:sdk}
-\subsection{nVidia támogatás telepítése}
+\section*{Software Developement Kit-ek (SDK) telepítése} \label{sect:sdk}
+\subsection*{nVidia támogatás telepítése}
 	A legtöbb mai Linux disztrók tartalmaznak drivert az nVidia videó kártyákhoz.
 	Ez az open source Nouveau, ami még nem támogatja az OpenCL-t.
 	Így a hivatalos nVidia drivert fel kell telepítenünk.
@@ -82,13 +82,13 @@
 	Ezután nagyobb problémák esetén már nem fogja lefagyasztani a rendszert a
 	watchdog.
 
-\subsection{Intel támogatás telepítése}
+\subsection*{Intel támogatás telepítése}
 	A következő oldalról letölthetjük az SDK-t \cite{intel-sdk}.
 	A kicsomagolás után az \texttt{./install-cpu.sh} program futtatásával
 	telepíthető.
 	Ezután még szükséges a \texttt{LD\_LIBRARY\_PATH} beállítása.
 
-\subsection{Eclipse – Integrated Developement Environment}
+\subsection*{Eclipse – Integrated Developement Environment}
 	A fejlesztés és hibakeresés egy Integrated Developement Enviroment (IDE)
 	segítségével könnyebb.
 	Az open source Eclipse \cite{eclipse} fejlesztőkörnyezet a különböző pluginjaival épp
@@ -99,18 +99,18 @@
 	Eclipse for Parallel Application Developers verzió illik, mivel a korábban említett pluginokat már eleve tartalmazza.
 
 
-\section{Új (Hello World) projekt létrehozása}
+\section*{Új (Hello World) projekt létrehozása}
 	Az OpenCL fejlesztését konyhanyelven bemutató OpenCL Programming Guide \cite{Munshi2011}
 	könyvben szereplő Hello World programot a következő linken lehet letölteni
 	\cite{hellow}.
 	A kód fordítása elött egy Eclipse projektet létrehozunk és a
 	fordításhoz szükséges beállításokat elvégezzük.
 
-\subsection{Empty C project létrehozása}
+\subsection*{Empty C project létrehozása}
 	Először egy üres C projektet hozunk létre, ami folyamatát a \ref{fig:newproj} 
 	ábrán látjuk. A korábban említettek szerint fordítónak a Linux GCC-t
 	állítjuk be.
-	\begin{figure}[H]
+	\begin{figure}[!h]
 	\centering
 	\includegraphics[width=67mm, keepaspectratio]{figures/eps/newC.eps}\hspace{1cm}
 	\includegraphics[width=67mm, keepaspectratio]{figures/eps/newP.eps}\\\vspace{5mm}
@@ -119,12 +119,12 @@
 	\label{fig:newproj}
 	\end{figure}
 
-\subsection{Compiler beállítása}
-	A létrehozott projektre jobb gombbal kattíntva a tulajdonságára kattintva
-	állíthatjuk be a fordítót a képnek \ref{fig:compiler} megfelelően.
-	A beállítások kiterjednek a GNU-C99 nyelv szerinti fordításra és a korábbi
-	\ref{sect:sdk} részben telepített SDK-ban található include mappa beállítására. 
-	\begin{figure}[H]
+\subsection*{Compiler beállítása}
+	A létrehozott projektre jobb gombbal kattíntva a tulajdonságára kattintva állíthatjuk be a fordítót a \ref{fig:compiler} ábrának
+	megfelelően.
+	A beállítások kiterjednek a GNU-C99 nyelv szerinti fordításra és a korábbi részben telepített SDK-ban található include mappa
+	beállítására.
+	\begin{figure}[!h]
 	\centering
 	\includegraphics[width=67mm, keepaspectratio]{figures/eps/lang.eps}\hspace{1cm}
 	\includegraphics[width=67mm, keepaspectratio]{figures/eps/include.eps}\\\vspace{5mm}
@@ -133,9 +133,9 @@
 	\label{fig:compiler}
 	\end{figure}
 
-\subsection{Linker beállítása}
+\subsection*{Linker beállítása}
 	A linkert a \ref{fig:linker} ábra szerint állítjuk be.
-	\begin{figure}[H]
+	\begin{figure}[!h]
 	\centering
 	\includegraphics[width=67mm, keepaspectratio]{figures/eps/link.eps}\hspace{1cm}
 	\includegraphics[width=67mm, keepaspectratio]{figures/eps/link_misc.eps}\\\vspace{5mm}

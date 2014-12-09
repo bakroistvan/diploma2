@@ -1,0 +1,49 @@
+% ----------------------------------------------------------------------------
+\chapter{A kernel programok lépéseinek bemutatása}
+% ----------------------------------------------------------------------------
+A lokális memóriát két azonos nagyságú $A$ és $B$ bufferre osztottam fel.
+
+\section{Medián szűrés}
+	\noindent A kernel program lépései a következők:
+	\begin{enumerate*}
+		\item A work-item globális és lokális indexének meghatározása,
+		\item Medián szűrés:
+		\item A kép egy részének a globális memóriából a lokális $A$ bufferbe való másolása,
+		\item Az összes work-item másolási folyamatának megvárása,
+		\item Medián szűrés az $A$ bufferből a $B$ bufferba,
+		\item Az $A$ bufferba az eredeti ($A$ buffer) és a szűrt ($B$ buffer) különbségének az eredményét
+		(differenciális kép) elhelyezni,
+		\item Döntési szint számítása és detektálás/megjelölés a $B$ bufferba,
+		\item A $B$ bufferben lévő eredmény a globális memóriába való kiírása hibakeresés biztosítása végett.
+	\end{enumerate*}
+	
+	A kernel lefutása után az eszköz globális memóriájából az eredményeket a hoszt-memóriájába töltjük.
+	A számításigényes szűrés, detektálás és momentum számítás az eszközön hajtódott végre. A részecskék
+	pozíciójának eloszlásának számítása memóriaigényes, de nem számításigényes feladat, így az a
+	host-programban került megvalósításra.
+
+\section{Átlagolás}
+\dots
+	\begin{enumerate*}
+		\item A work-item globális és lokális indexének meghatározása,
+		\item Eredmény mentése a globális memóriába
+	\end{enumerate*}
+
+\section{Detektálás}
+\dots
+	\begin{enumerate*}
+		\item A work-item globális és lokális indexének meghatározása,
+		\item Kiterjesztés és a flood-fill algoritmussal a ROI meghatározása:
+		\begin{enumerate*}
+			\item Megjelölt pixel keresése,
+			\item Adott környezetére való kiterjesztése,
+			\item A kiterjesztés során a két legtávolabbi pont lesz a ROI határpontjai.
+		\end{enumerate*}
+		\item Részecske pozíciójának számítása momentum módszerrel,
+		\item Eredmény mentése a globális memóriába
+	\end{enumerate*}
+
+% \begin{lstlisting}[frame=single,float=!ht,caption=A detektálás kernelének kódja,
+% label=listing:kernel]
+% asd;
+% \end{lstlisting}

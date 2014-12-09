@@ -17,6 +17,7 @@
 \usepackage{anysize}
 \usepackage[magyar]{babel}
 \usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
 \usepackage{sectsty}
 \usepackage{setspace}  % Ettol a tablazatok, abrak, labjegyzetek maradnak 1-es sorkozzel!
 \usepackage[hang]{caption}
@@ -26,10 +27,19 @@
 
 \usepackage{subfig}
 
+\usepackage[underline=true,rounded corners=false]{pgf-umlsd}
+\usepackage[titletoc]{appendix}
+\usepackage{relsize}
+
 \usepackage{array}
 \usepackage{multirow}
 \usepackage{mdwlist}
 \makecompactlist{myitemize*}{itemize}
+
+\usepackage[outerbars,color]{changebar}
+\usepackage{todonotes}
+\cbcolor{red}
+
 
 %--------------------------------------------------------------------------------------
 % Main variables
@@ -75,12 +85,13 @@
     pdfproducer={Producer},    % producer of the document
     pdfkeywords={keywords},    % list of keywords
     pdfnewwindow=true,         % links in new window
-    %pdfborder={1 2 3},
+    %pdfborder={0 0 0.5 [3 3]},
     colorlinks=true,           % false: boxed links; true: colored links
     linkcolor=black,           % color of internal links
     citecolor=black,           % color of links to bibliography
+    citebordercolor={0 1 0},
     filecolor=black,           % color of file links
-    urlcolor=black,             % color of external links
+    urlcolor=blue,             % color of external links
     breaklinks=true 
 }
 
@@ -91,7 +102,7 @@
 	basicstyle=\scriptsize\ttfamily, % print whole listing small
 	keywordstyle=\color{black}\bfseries\underbar, % underlined bold black keywords
 	identifierstyle=, 					% nothing happens
-	commentstyle=\color{white}, % white comments
+	commentstyle=\color{green}, % white comments
 	stringstyle=\scriptsize\sffamily, 			% typewriter type for strings
 	showstringspaces=false,     % no special string spaces
 	aboveskip=3pt,
@@ -105,6 +116,8 @@
 %	Some new commands and declarations
 %--------------------------------------------------------------------------------------
 \newcommand{\code}[1]{{\upshape\ttfamily\scriptsize\indent #1}}
+%\renewcommand*{\appendixpagename}{Függelék} 
+%\renewcommand*{\appendixtocname}{Függelék} 
 
 % define references
 \newcommand{\figref}[1]{\ref{fig:#1}.}
@@ -112,6 +125,10 @@
 \newcommand{\listref}[1]{\ref{listing:#1}.}
 \newcommand{\sectref}[1]{\ref{sect:#1}}
 \newcommand{\tabref}[1]{\ref{tab:#1}.}
+
+
+\newcommand{\E}[1]{{\mathop{\bf E\/}\left\{#1\right\}}}
+\newcommand{\STD}[1]{{\mathop{\bf STD\/}\left\{#1\right\}}}
 
 
 \newcommand{\ud}{\ \mathrm{d}}
@@ -123,6 +140,17 @@
 \DeclareMathOperator{\sign}{sgn}
 \DeclareMathOperator{\rot}{rot}
 \definecolor{lightgray}{rgb}{0.95,0.95,0.95}
+
+\newcommand*{\cleartorightpage}{%
+	\clearpage
+	\ifodd\value{page}
+	\else
+		\mbox{}\clearpage
+	\fi
+}
+
+\renewcommand{\captionlabelfont}{\small\bf}
+\renewcommand{\captionfont}{\footnotesize\it}
 
 \author{\vikszerzo}
 \title{\viktitle}
@@ -136,16 +164,12 @@
 width=.75\textwidth,
 aboveskip=10pt}
 
-\renewcommand{\captionlabelfont}{\small\bf}
-\renewcommand{\captionfont}{\footnotesize\it}
 
 %--------------------------------------------------------------------------------------
 % Table of contents and the main text
 %--------------------------------------------------------------------------------------
 \begin{document}
-\singlespacing
-%\include{guideline}
-
+%\singlespacing
 
 %\pagenumbering{arabic}
 %\pagenumbering{roman}
@@ -165,16 +189,18 @@ aboveskip=10pt}
 \include{project}
 \clearpage
 
+
+\include{abstract}
+
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
-\include{abstract}
-% \include{introduction}
 \include{kiserlet}
 \include{detektalas}
 \include{opencl}
-\include{ide}
-\include{multip}
+
+\include{host}
+\include{kernel}
 \include{hasonlit}
 %\include{chapter6}
 %\include{chapter7}
@@ -184,16 +210,15 @@ aboveskip=10pt}
 \pagenumbering{Roman}
 \setcounter{page}{1}
 
-% \include{fuggelek}
+\appendix
+\include{ide}
  
 
-\listoffigures\addcontentsline{toc}{chapter}{Ábrák jegyzéke}
-\listoftables\addcontentsline{toc}{chapter}{Táblázatok jegyzéke}
+\listoffigures	\addcontentsline{toc}{chapter}{Ábrák jegyzéke}
+\listoftables	\addcontentsline{toc}{chapter}{Táblázatok jegyzéke}
 
-\bibliography{diploma1.bib}
-\addcontentsline{toc}{chapter}{Irodalomjegyzék}
+\bibliography{diploma1.bib} \addcontentsline{toc}{chapter}{Irodalomjegyzék}
 \bibliographystyle{ieeetr}
-
 
 
 \label{page:last}

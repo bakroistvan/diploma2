@@ -3,7 +3,7 @@
 %----------------------------------------------------------------------------
 
 \section{Detektálási módszerek}
-	A korábban látható \ref{fig:captures}. ábrán látható képeken kell a részecskéket felismerni és
+	A korábban látható \ref{fig:captures}. ábrán látható ábrákhoz hasonló képekről kell a részecskéket felismerni és
 	azoknak a koordinátáit exportálni.
 	Erre több lehetőség adódik, amit a \cite{Feng2007} részletez.
 	A detektáló módszereket a számítás igényeiknek növekvő sorrendjében mutatom be.
@@ -21,15 +21,15 @@
 	A differenciális képen a részecskéket a korábban említett küszöb módszerrel lehet detektálni a
 	részecskéket.
 	
-	Ehhez csupán a mérési képből kell szűréssel származtatni a háttérképet (eliminálni a részecskéket).
-	A \cite{Feng2007,Oxtoby2010} cikkekben és általában erre véges Gauss szűrőt használnak, ami egy
+	Ehhez csupán a mérési képből kell szűréssel származtatni a háttérképet azaz eliminálni a részecskéket.
+	A \cite{Feng2007,Oxtoby2010} cikkekben és általában is erre véges Gauss szűrőt használnak, ami egy
 	lineáris véges impulzusválaszú (FIR) aluláteresztő szűrő.
 	A szűrés egy adott pixel környezetének súlyozott átlagolását jelenti.
 	A súlyozás során szoroznunk kell, ami a bináris megvalósítás végett jóval lassabban történik, mint az
 	összeadás avagy az összehasonlítás.
 	
 	Mivel a részecskék mérete a képen véges és kis szórású, így a korábban
-	említett FIR Gauss szűrő jól tudja a részecskéket eliminálni.
+	említett FIR Gauss szűrő aránylag jól tudja a részecskéket eliminálni.
 	Viszont a mérési képek $100\ \mathrm{FPS}$ sebességgel és $1024\times1024$ mérettel érkeznek be.
 	Ez $100\ \mathrm{MByte/s}$ adatfolyamot jelent. Ahhoz, hogy ezt közel real-time feltudjuk dolgozni
 	a Gauss szűrés nem járható út. Hatékonyabb szűrőre van szükségünk! A megoldást a medián szűrőben látom,
@@ -38,15 +38,15 @@
 	A nemlinearitás jelen esetben nem okoz gondot, mivel csak detektálásra használjuk (a pozíció
 	kinyerése az eredeti kép alapján készül, de ez később részletezve lesz.)
 	
-	A Gauss szűrő $n\times n$ környezet (ablak) esetén $n^2$ szorzást és $n^2-1$ összeadást jelent. Míg
-	a medián szűrő $n\times n$ ablak esetén: bubborék rendezés során $O(n^2)$, javított bubborék
-	rendezés során $O(n^2 / 2)$ illetve quicksort esetén $O(n\log n)$ összehasonlítást és
+	A Gauss szűrő $N = n\times n$ környezet (ablak) esetén $N^2$ szorzást és $N^2-1$ összeadást jelent. Míg
+	a medián szűrő $N = n\times n$ ablak esetén: bubborék rendezés során $O(N^2)$, javított bubborék
+	rendezés során $O(N^2 / 2)$, quicksort esetén $O(N\log N)$ illetve kiválasztásos rendezés esetén $O(N)$ összehasonlítást és
 	cserét. Az összehasonlítás és a csere nagyságrendekkel gyorsabban végrehajtható, mint a szorzás és
-	összeadás.
+	összeadás. A kedvező lépésszám és helybeli rendezés lehetősége végett a kiválasztásos rendezést választottam.
 	
 \subsection{Adaptív küszöb módszer szűréssel}
 	Látható a \ref{fig:allo}. ábrán, hogy a sötétebb háttér kiterjedése nagyobb, ennek megfelelően az
-	automata kamera ezekre a területekre állítja be az expozíciót.
+	kamera expozíció szabályozója ezekre a területekre állítja be az expozíciót.
 	Így a sötét területek részletesebbek, míg a világos területek részletszegények (túlexponáltak) lesznek.
 	Számunkra ez azt jelenti, hogy a sötétebb területeken jobban megbízhatunk a részecskék kiugró
 	értékében, míg a világosabb területeknél nem.
@@ -54,18 +54,18 @@
 	Az adaptív küszöböt a következő kifejezéssel határoztam meg:
 	\begin{multline}
 		\label{eq:treshold}
-		K = \mathrm{Mean}\{P-\mhat{M}P\}+\\
-		  + \delta \cdot \mathrm{STD}\{P - \mhat{M}P\} \cdot 
+		K = \E{P-\mhat{M}P}+\\
+		  + \delta \cdot \STD{P - \mhat{M}P} \cdot 
 		\left[ 1+ a \left(
 			\frac{\mhat{M}P}{\max\left\{\mhat{M}P\right\} - \min\left\{\mhat{M}P\right\}}
 			\right)^b
 		\right]
 	\end{multline}
-	ahol $P$ az eredeti kép, $\mhat{M} P$ a medián szűrt kép, $\mathrm{Mean}\{\},\ \mathrm{STD}\{\}$ az
-	átlag és a szórás számításának függvénye és a $a,b$ két alakparaméter.
+	ahol $P$ az eredeti kép, $\mhat{M} P$ a medián szűrt kép, $\E{\ }, \STD{\ }$ az
+	átlag és a szórás számításának függvénye és az $a, b, \delta$ három alakparaméter.
 	\footnote{Az adaptív döntést a mérési kép előzetes feldolgozásával is elérhettük volna,
-	ha a Photoshop-ból ismert Curves tool-al módosítottunk volna rajta. A tool a képet egy nemlineáris
-	fügvényen keresztül engedi át.}
+	ha a Photoshop-ból ismert Curves tool-hoz hasonlóval módosítottunk volna rajta. (A tool a képre egy nemlineáris
+	függvénnyel hattat.)}
 	
 	A \ref{fig:alg}. ábrán látható a detektálási algoritmus működése közben.
 	A \ref{fig:alg1}. ábrán a mérési kép ($P$) látható kitöltött görbével, ami az \ref{fig:allo}. ábrán
@@ -99,7 +99,7 @@
 	\end{figure}
 	
 \section{A részecskék pozíciójának számítása}
-	Kis felbontású kamera illetve nagyon kis porrészecskék esetén előállhat, hogy a részecskék egy
+	Kis felbontású kamera illetve nagyon kis porrészecskék esetén előállhat, hogy a részecskék csupán egy
 	pixelnyi területet foglalnak el a képen. Detektálás szempontjából ez kedvező viszont a pozíciómérés
 	szempontjából nem, mivel ilyenkor a felbontásunk 1 pixelnyi. Ezen javítani a dithereléssel a
 	következőképpen lehet: picit elállítjuk az élességet úgy, hogy egy részecske több pixel nagyságú
@@ -110,7 +110,7 @@
 	Az egy részecskéhez tartozó pixel-csoportot egy téglalap fogja határolni, amit region of
 	interest-el (ROI) szokás illetni. Azonban a részecske detektálása után amorf formájú megjelölt
 	pixeleink lesznek. Ezeket a könnyebb csoportosítás végett kiterjesztem pár pixellel az így kapott
-	képet flood-fill algorimussal egybefüggővé teszem és ennek eredményeképp megkapom a ROI határoló
+	pixeleket flood-fill algorimussal egybefüggővé teszem és ennek eredményeképp megkapom a ROI határoló
 	koordiánáit, amit a következő két módszer felhasznál a részecske pozíciójának számítása során.
 	\subsection*{Maximum keresés}
 	Legegyszerűbb eset, ha a ROI-n belül az eredeti pixelek közül a legvilágosabbat veszem a
@@ -119,12 +119,13 @@
 	Szofisztikáltabb, ha a ROI-n belül az eredeti pixelek világosságát, mint tömegpont tömegének veszem
 	és a ROI-által határolt test súlypontját megkeresem. A módszerre kritikusan hat az előbb említett
 	kiterjesztés mértéke. Ha túl nagy a kiterjesztés, akkor azzal hibát viszek be pozicíó mérésébe,
-	míg ha túl kicsi akkor meg egy részecskének akár két képe/pozíciója keletkezhet.
+	míg ha túl kicsi akkor meg egy részecskének akár két képe/pozíciója keletkezhet. Továbbá nem érünk el nagyobb pontosságot a
+	maximumkereséshez képest.
 	
 	\noindent Az algoritmus hatékonyságát különböző $\delta$ érték mellett a következő \figref{roi}
 	ábrán látható.
 	
-	\begin{figure}[H]
+	\begin{figure}[!ht]
 		\centering
 		\subfloat[$\delta = 10$]{
 			\includegraphics[width=1\columnwidth]{figures/eps/delta10.eps}%
