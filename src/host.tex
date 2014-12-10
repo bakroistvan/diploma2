@@ -3,14 +3,15 @@
 % ----------------------------------------------------------------------------
 	A $~100\ \mathrm{FPS}$-el érkező képeket az eszköz globális memóriájának méretét figyelembe véve dolgozom fel.
 	A megjelenítésnek nem fontos szigorúan real-time működésűnek lennie (soft real-time), adott fokú késleltetés megengedhető, a
-	határidő elmulasztása nem jár súlyos következménynel. A program ciklikusan a következő lépéseket hajtja végre:
+	határidő elmulasztása nem jár súlyos következménynel. A program ciklikusan a következő felsorolásban olvasható lépéseket hajtja
+	végre. A lépések a későbbi \ref{sec:parallel} részben ismertetettek végett párhuzamosan időben átlapolódva történnek. 
 	\begin{enumerate*}
 		\item Kép fogadása (gyűjtése) a kamerától GigE porton keresztül (beolvasása a host-memóriába),
 		\item Képek leküldése a host-memóriájából az eszköz globális memóriájába,
 		\item Eszközön futtatandó kernelek inicializálása, argumentumainak beállítása,
 		\item Kernelek futtatása az eszközön:
 		\begin{enumerate*}
-			\item Első kép medián szűrése és az adaptív detektálási szint előállítása,
+			\item Első kép (medián) szűrése és az adaptív detektálási szint előállítása,
 			\item Az első és a fennmaradó képeken detektálás.
 		\end{enumerate*}
 		\item Kernelek futása után az eredmény az eszköz globális memóriájából a host-memóriájába való
@@ -20,7 +21,7 @@
 	A kernel megírása során a korábbi \ref{sec:opencl}. fejezetben említetteket figyelembe kell venni.
 	Főként a véges lokális és globális memóriát és a work-itemek számát. A kernelek adat-parallel módon lett megírva.
 	
-\section{A host program párhuzamos felépítése}
+\section{A host program párhuzamos felépítése} \label{sec:parallel}
 	A korbábban kitűzött késleltetéssel rendelkező, de a real-time viselkedésre több tényező rossz hatással van.
 	Ezek a következők:
 	\begin{itemize}
@@ -35,22 +36,27 @@
 	és megegyezik - a bemenet $N$ számossága esetén - a $O(N \log N)$ \todo{fel lehet javítani\ldots} értékkel.
 	
 	Adódik, hogy a host programot több konkurens szálra bontva kerüljön implementálásra az ismert Producer-Consumer
-	\cite{EWD:EWD329pub} mintát alkalmazva.
-	\cbstart
+	\cite{EWD:EWD329pub} mintát alkalmazva. Az adatkapocsatot a két szál között várakozási listával szükséges megoldani. 
+	Ezzel kiküszöbölhető az előbb felsorolt problémák azaz a szálak egymásra várásának csökkentését lehet elérni.
+	
+	\cbstart \textit{
 	A szálak létrehozását és kezelését a \textit{Boost C++ Libraries} \cite{boost} keretrendszer
 	megfelelő függvényhívásai oldják meg. A keretrendszer parancssori argumentumkezelést, szálkezelést, szemafort, várakozási
 	listát és atomi működésű operátorokkal rendelkező változókat nyújt a programozó számára.
-	\cbend
+	} \cbend
 	A szálak közötti adatkapcsolást FIFO típusú (single producer - single consumer) várakozási listával oldom meg.
 	
 	Egy producer szálon kerül implementálásra a kamera képeinek fogadása és a várakozási sorba állítása. Következő consumer
 	és egyben producer szálon a várakozási sorból egy kép elővétele majd feldolgozására kerül sor az OpenCL kernel által, aminek
 	eredménye a megjelenítő OpenGL bufferébe kerül letárolásra. Az utolsó consumer szál az OpenGL-es megjelenítést végzi.
-	Az implementálandó szálak ``szekvencia diagrammja'' a következő \ref{fig:host_seq} ábrán látható. 
-	
-
+	Az implementálandó szálak ``szekvencia diagrammja'' a következő \ref{fig:host_seq} ábrán látható.
+	Az ábra alapja UML szekvencia diagramm, amit kiegészítettem az OpenCL kernel
+	és az OpenGL callback függvényének futásával. Az ábrán három szál láthetó ezek a Main, Producer, Consumer.
+	A szálak részletes ismertetése a következő részben következnek.
+	\newpage
+	 
 %\usepackage{graphics} is needed for \includegraphics
-\begin{figure}[!htp]
+\begin{figure}[H]
 	
 	\begin{sequencediagram}
 	%\newthread{m}{\makebox[2cm]{Main}}
@@ -59,68 +65,156 @@
 	\tikzstyle{inststyle}+=[left color = green, right color = red, rounded corners=3mm]
 	\newinst[2]{ocl}{OpenCL}
 	
-	\tikzstyle{inststyle}+=[left color = white, right color = white]
+	\tikzstyle{inststyle}+=[left color = white, right color = white, rounded corners=0mm]
 	%\newthread{cons}{\makebox[2cm]{Consumer}}
 	\newinst{cons}{Consumer}
 	\tikzstyle{inststyle}+=[left color = blue, right color = blue, rounded corners=3mm]
 	\newinst[1.5]{ogl}{OpenGL}
-	
 		\begin{call}{m}{start()}{cons}{}
-		
 		%\prelevel
-		
-		\begin{call}{m}{start()}{prod}{}
-			\begin{call}{prod}{enqueueKernel()}{ocl}{ReadBuffer()}
-			\end{call}
 			
-			\begin{messcall}{cons}{start()}{ogl}
-			\begin{sdblock}{glutMainLoop()}{}
-				\begin{call}{cons}{}{cons}{}
+		\begin{messcall}{cons}{start()}{ogl}
+			\begin{call}{m}{start()}{prod}{join()}
+			
+			\begin{sdblock}{processingLoop}{}
+				\begin{call}{prod}{enqueueKernel()}{ocl}{ReadBuffer()}
+				\end{call}
+				
+				
+				\begin{sdblock}{glutMainLoop()}{}
+					\begin{call}{cons}{}{cons}{}
+					\end{call}
+				\end{sdblock}
+				
+				\mess{prod}{buff[][]}{ogl}
+				
+				\begin{call}{ogl}{glutSwapBuffers()}{ogl}{}
 				\end{call}
 			\end{sdblock}
 			
-			\mess{prod}{buff[][]}{ogl}
-			
-			\begin{call}{ogl}{glutSwapBuffers()}{ogl}{}
 			\end{call}
-			\end{messcall}
-					
-		\end{call}
-		
+			
+		\end{messcall}
 		
 		\end{call}
 	\end{sequencediagram}
 
 
-  \caption{Host program szekvencia diagrammja}
+  \caption{Host program ``szekvencia diagrammja''}
   \label{fig:host_seq}  
 \end{figure}
 
+	
+\section{Main (producer) szál}
+	A program futtatása által jön létre a program \texttt{main()} függvényét futtatja. A szál a parancssori argumentumok
+	feldolgozását, az inicializálásért és a kamera adatfolyamának fogadásáért és letárolásáért felel.
 
-\section{\texttt{main} (producer) szál}
-\dots
-\subsection{Inicializálás}
-A korábban említett várakozási lista fix méretű a $100\ \mathrm{FPS}$-el érkező képek $1$ másodpercnyi feldolgozásához szükséges
-méretű.
-\subsection{Kamera adatfolyamának fogadása}
-\ldots
+	\subsection*{Inicializálás}
+	A korábban említett várakozási lista fix méretű a $100\ \mathrm{FPS}$-el érkező képek $1$ másodpercnyi feldolgozásához szükséges
+	méretű. Ennek megfelelően a várakozási lista \texttt{BUFF\_N=100} hosszúságú. A képek tárolása $100
+	\times 1024 \times 1024$ \texttt{unsigned char} típusú tömbben kerül tárolásra. A hivatkozás rájuk a következőképp definiált osztályon keresztül történik.
+ %float=!H ,caption=Képet tartalmazó osztály]
+\begin{lstlisting}[language=C++]
+class Oimage {
+public:
+	unsigned int	i;
+	unsigned int	N;
+	int	*ptr;
+	
+	Oimage();
+	Oimage(unsigned int _i, unsigned int _N, int *_ptr);
+};
+\end{lstlisting}
+	
+	Az osztály példányai a következőkép definiált single-producer single-consumer várakozási listába kerülnek.
+	 
+\begin{lstlisting}[language=C++]
+boost::lockfree::spsc_queue<Oimage, boost::lockfree::capacity<BUFF_N> > spsc_queue;
+\end{lstlisting}
+	
+	A következő lépés a Consumer szál létrehozása. \ldots
+	
+	A következő lépés a Producer szál létrehozása. \ldots
+	
+	Az inicializáció következő lépése a kamera inicializálása. \ldots
+	 
+	\subsection*{Kamera adatfolyamának fogadása}
+	
+\begin{lstlisting}[language=C++]
+spsc_queue.push(Oim)
+\end{lstlisting}
 
+	Miután a megérkezett képhez tartozó osztályt a várakozási listába kerül a folyamat kezdődik elölről.
+	
 \section{Producer szál}
-\dots
-\subsection{OpenCL inicializálás}
-\begin{itemize}
-	\item Infó lekérdezése
-	\item Global mem. méret
-	\item Local mem. méret
-\end{itemize}
+	Az inicializálás során több paraméter értékét kell beállítani és több függvénynek átadni. Ennek egyszerűsítésére létrehoztam a
+	következőképp definiált Params osztályt:
+\begin{lstlisting}[language=C++]	
+class Params {
+public:
+	...
+	bool		only_global;	// csak globalis memoria hasznalata
+	...
+	uint		file_N;		// file merete def.: 1024
+	uint		nh_N;		// median ablakanak merete !!! paratlan !!!
+	uint		tail;		// a szures altal letrejovo pixelek a kep szelen 
+	uint		Bfile_N;		// az igy kapott kep meret
 
-\subsection{Kép kernelekkel történő feldolgozása}
-\ldots
+	uint		pplN;		// kivant local meret
+
+	uint		localN;		// work-group nagysage
+	uint		globalN;		// osszes work-item szamossaga
+
+	ulong	aSize;		// eszkoz global memoria max alloc. merete byte-ban
+	ulong	lSize;		// eszkoz local memoria meret byte-ban
+
+	ulong	mCuint;		// eszkoz max compute unit szama
+};
+\end{lstlisting}
+	A paraméterek értelmezése a következő
+	\begin{description}
+	\item[only\_global] Csak globális memória haszálata vagy lokálisat is használjon. Adott eszközök esetén a lokális memória a
+	globális memóriába van mappelve, így használata csupán felesleges adatmozgatást jelentene,
+	\item[file\_N] A kép 2D-s mérete jelen esetben $1024$,
+	\item[nh\_N] A medián szűrő mozgó ablakának 2D-s mérete (páratlan szám) pl.: $3,5,7,9$ (magasabb fokú szűrőt nem érdemes
+	használni, mivel nagy nemlinearitással rendelkeik),
+	\item[tail] a szűrés által letrejövő pixelek a kép szélén, azaz \texttt{tail = (nh\_N -1) / 2},
+	\item[Bfile\_N] az így kapot kép 2D-s mérete, azaz \texttt{Bfile\_N = file\_N + 2*tail},
+	\item[pplN] javasolt lokális méret, pl.: a compute unit-ok száma,
+	\item[localN] a tényleges lokális méret egy work-group-on belül,
+	\item[globalN] az összes work-item számossága,
+	\item[aSize] az eszköz globális memóriájában allokálható maximális memória méret,
+	\item[lSize] az eszköz lokális memóriájának mérete,
+	\item[mCuint] az eszköz egyszerre futtatható szálának (compute unit) száma.
+	\end{description}
+	Értékük a következő részben kerül ismertetésre.
+	
+	\subsection*{OpenCL inicializálás}
+	Az inicializáláshoz első körben szükség van az eszköz fontosabb tulajdonságaira. Az eszköz globális, lokális memóriájának mérete,
+	a globális memóriában maximálisan allokálható memória mérete és a compute-unite-ok száma.
+	\subsubsection{Globalis memória mérete}
+	A globális memóriában a következőknek kell elférnie:
+	\begin{itemize}
+	  \item a képek (\texttt{[file\_N][file\_N]}),
+	  \item a szűrt képek (\texttt{[Bfile\_N][Bfile\_N]}),
+	  \item a detektálás után megjelölt pixelek (\texttt{[file\_N][file\_N]}).
+	\end{itemize}
+	
+	\subsubsection{Lokális memória mérete}
+	A lokális memória nagy sebessége és gyors elérése végett alapvető a preferáltsága a párhuzamos applikációkban.
+	A program futása során kerül megállíptásra a használt értéke.
+	
+	A szűrt kép minden pixelének kiszámításához egy work-item-et rendelek, így egy work-item-hez \texttt{nh\_N $\times$ nh\_N}
+	lokális memóriát rendelek. Ezáltal a szűrés teljes mértékben a lokális memóriában történik, ezzel lehet optimális OpenCL kódot írni.
+	
+	\subsection*{Kép kernelekkel történő feldolgozása}
+	\ldots
+
 
 \section{Consumer szál}
-\dots
-\subsection{OpenGL inicializáció}
-\ldots
-
-\subsection{OpenGL callback függvény}
-\dots
+	\dots
+	\subsection*{OpenGL inicializáció}
+	\ldots
+	
+	\subsection*{OpenGL callback függvény}
+	\dots

@@ -1,5 +1,5 @@
 %\documentclass[12pt,a4paper,oneside]{report}             % Single-side
-\documentclass[11pt,a4paper,twoside,openright]{report}  % Duplex
+\documentclass[12pt,a4paper,twoside,openright]{report}  % Duplex
 
 %\PassOptionsToPackage{chapternumber=Huordinal}{magyar.ldf} %betuvel a fejezetek szama
 \usepackage{t1enc}
@@ -39,6 +39,8 @@
 \usepackage[outerbars,color]{changebar}
 \usepackage{todonotes}
 \cbcolor{red}
+
+%\usepackage{afterpage}
 
 
 %--------------------------------------------------------------------------------------
@@ -98,19 +100,42 @@
 %--------------------------------------------------------------------------------------
 % Set up listings
 %--------------------------------------------------------------------------------------
-\lstset{
+
+\usepackage{listings}
+\usepackage{color}
+ 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{lightgray}{rgb}{0.9,0.9,0.9}
+
+\lstset{ %
+	language=C++,
+	backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    %numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    %stringstyle=\scriptsize\sffamily\color{codepurple}, 			% typewriter type for strings
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=none,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=5,
 	basicstyle=\scriptsize\ttfamily, % print whole listing small
-	keywordstyle=\color{black}\bfseries\underbar, % underlined bold black keywords
+	%keywordstyle=\color{black}\bfseries\underbar, % underlined bold black keywords
 	identifierstyle=, 					% nothing happens
-	commentstyle=\color{green}, % white comments
-	stringstyle=\scriptsize\sffamily, 			% typewriter type for strings
-	showstringspaces=false,     % no special string spaces
 	aboveskip=3pt,
 	belowskip=3pt,
 	columns=fixed,
 	backgroundcolor=\color{lightgray},
-} 		
-\def\lstlistingname{lista}	
+}
 
 %--------------------------------------------------------------------------------------
 %	Some new commands and declarations
@@ -139,7 +164,7 @@
 %\DeclareMathOperator*[1]{\floor}{arg\,max}
 \DeclareMathOperator{\sign}{sgn}
 \DeclareMathOperator{\rot}{rot}
-\definecolor{lightgray}{rgb}{0.95,0.95,0.95}
+
 
 \newcommand*{\cleartorightpage}{%
 	\clearpage
