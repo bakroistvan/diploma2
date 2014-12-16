@@ -1,0 +1,42 @@
+\begin{sequencediagram}
+	%\newthread{m}{\makebox[2cm]{Main}}
+	\newthread{m}{Main}
+	\newinst{prod}{\makebox[2cm]{CProducer}}
+	\tikzstyle{inststyle}+=[left color = green, right color = red, rounded corners=3mm]
+	\newinst[2]{ocl}{OpenCL}
+	
+	\tikzstyle{inststyle}+=[left color = white, right color = white, rounded corners=0mm]
+	%\newthread{cons}{\makebox[2cm]{Consumer}}
+	\newinst{cons}{Consumer}
+	\tikzstyle{inststyle}+=[left color = blue, right color = blue, rounded corners=3mm]
+	\newinst[1.5]{ogl}{OpenGL}
+		\begin{call}{m}{start()}{cons}{}
+		%\prelevel
+			
+		\begin{messcall}{cons}{start()}{ogl}
+			\begin{call}{m}{start()}{prod}{join()}
+			
+			\begin{sdblock}{processingLoop}{}
+				\begin{call}{prod}{enqueueKernel()}{ocl}{ReadBuffer()}
+				\end{call}
+				
+				
+				\begin{sdblock}{glutMainLoop()}{}
+					\begin{call}{cons}{}{cons}{}
+					\end{call}
+				\end{sdblock}
+				
+				\mess{prod}{buff[][]}{ogl}
+				
+				\begin{call}{ogl}{glutSwapBuffers()}{ogl}{}
+				\end{call}
+			\end{sdblock}
+			
+			\end{call}
+			
+		\end{messcall}
+		
+		\end{call}
+	\end{sequencediagram}
+
+
