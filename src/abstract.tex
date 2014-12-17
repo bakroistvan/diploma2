@@ -1,13 +1,46 @@
 %----------------------------------------------------------------------------
 % Abstract in hungarian
 %----------------------------------------------------------------------------
-\chapter*{Kivonat}\addcontentsline{toc}{chapter}{Kivonat}
+\phantomsection\addcontentsline{toc}{chapter}{Kivonat}
+\begin{center}
+	\huge
+	\textbf{Kivonat}
+\end{center}
 
-	hablaty
+
+	Dolgozatomban bemutatom a poros plazma kísérletek apparátusát.
+	A kísérlet során a kristályrácsba rendeződő részecskékről egy nagy sebességű kamerával fényképek készülnek.
+	Ezen képek feldolgozásával a részecskék pozícióját és a rendszer statisztikai mennyiségeit számítom.
+	
+	Ismertettem a részecske detektálásának módszerét szűrés és adaptív döntési küszöb használatával.
+	Az elterjedt FIR Gauss szűrő helyett a hatékonyabb medián szűrőt javasoltam és alkalmaztam.
+	A pozíció számítására a momentum módszert implementáltam, ami nagyobb számítási energiát igényel, de szubpixeles felbontást lehet vele elérni.
+	
+	Ezután áttekintem az OpenCL keretrendszert, amit a párhuzamos program megírásának segítségére használtam.
+	Az itt ismertetett megállapításokat és a használandó eszközök tulajdonságait figyelembe véve állítottam össze a párhuzamos program lépéseit, amit részleteztem is.
+	Az elkészült programokat CPU-n, GPU-n és multiprocesszoros kártyán is futtatva a futási idejüket összevetettem.
+	A programot beillesztem a nagy sebességű kamera képfelvevő szoftverébe az online feldolgozás végett.
+
+\newpage
 
 
+\phantomsection\addcontentsline{toc}{chapter}{Abstract}
+\begin{center}
+	\huge
+	\textbf{Abstract}
+\end{center}
 
-\chapter*{Abstract}\addcontentsline{toc}{chapter}{Abstract}
-
-	what? what? in the butt
+	In my thesis I show the apparatus of the dusty plasma's experiment.
+	During the experiment the particles are in crystal structure and photos are taken of them with high speed camera.
+	Processing these images will result the particle's position and the system's statistical quantities.
+	
+	Than I describe the detection of the particles using filtering and adaptive decision level.
+	Instead of using the common FIR Gauss filter I implement the more effective median filter.
+	For computing the particle's position I implement the momentum method, which take more steps but one can achieve sub-pixel resolution.
+	
+	After I overview the OpenCL framework, which is used for parallel programming.
+	Using this statements and the available device's properties I composed the program's steps.
+	These steps are investigated for achieving faster run time.
+	I benchmark the program's run time on CPU, on GPU and on many integrated core card.
+	Finally I put the program inside the image acquiring softver of the high speed camera for online processing..
 	

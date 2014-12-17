@@ -110,3 +110,4 @@ sympy-plots-for-*.tex/
 
 # my tmp files
 tmp/
+/out/

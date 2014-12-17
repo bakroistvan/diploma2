@@ -1,7 +1,7 @@
 %----------------------------------------------------------------------------
-\chapter{Haználati útmutató és vizsgálat}
+\chapter{Használati útmutató és vizsgálat}
 %----------------------------------------------------------------------------
-\begin{lstlisting}
+\begin{lstlisting}[language=bash]
 $ ./pp-track -h
 pp-track: Real-time particle detect and distribution display
 
@@ -11,5 +11,9 @@ pp-track: Real-time particle detect and distribution display
   --device arg          arg --> {cpu, gpu, acc}
   -v [ --verbose ]      verbose mode
   -c [ --convert ]      convert output raw files to tiff
+  --buff                queues length
+  --nh_N                moving windows size of the median filter
+  --ppln                proposed work-groups size
+  --ppfps               proposed FPS display 
 \end{lstlisting}
 Medián szűrés összehasonlítása csak global illetve global és local memória használata esetén.

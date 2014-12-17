@@ -30,7 +30,7 @@ __kernel void median(	uint		N,		// 0
 					uint		file_N,	// 1
 					uint		nh_N,	// 2
 		__global		uchar	*im,		// 3 :: [N][Bfile_N][Bfile_N]					
-		__global		uchar	*Oim,	// 4 :: [N][file_N][file_N]
+		__global		uchar	*Oim,	// 4 :: [file_N][file_N]
 		__local		uchar	*Lwork	// 5 :: [lN][lN][nh_N][nh_N]
 )
 \end{lstlisting}
@@ -70,7 +70,7 @@ __kernel void median(	uint		N,		// 0
 \begin{lstlisting}[language=C++]
 __kernel void average(	uint		N,		// 0
 					uint		file_N,	// 1					
-		__global		uchar	*Oim,	// 2 :: [N][file_N][file_N]
+		__global		uchar	*Oim,	// 2 :: [file_N][file_N]
 		__global		uint		*Oavg,	// 3 :: [N][file_N][lN]
 		__local		uchar	*Lwork	// 4 :: [xN][yN]
 )
@@ -86,6 +86,20 @@ __kernel void average(	uint		N,		// 0
 	A részösszegekből a host oldalon történik az átlag számítása.
 
 \section{Detektálás}
+\noindent A kernel függvényének fejléce a következő:
+\begin{lstlisting}[language=C++]
+__kernel void detect(	uint		N,		// 0
+					uint		file_N,	// 1					
+					float	avg,		// 2
+		__global		uchar	*im,		// 3 :: [N][file_N][file_N]
+		__global		uchar	*Oim,	// 4 :: [file_N][file_N]
+		__global		uchar	*OUT,	// 5 :: [N][file_N][file_N]
+		__local		uchar	*LIwork	// 6 :: [xN][yN]
+		__local		uchar	*LOwork	// 7 :: [xN][yN]
+)
+\end{lstlisting}
+
+\noindent A kernel program lépései a következők:
 	\begin{enumerate*}
 		\item A work-item globális és lokális indexének meghatározása,
 		\item Az adaptív külszöb számítása és ennek megfelelő detektálás,

@@ -1,6 +1,8 @@
 %\documentclass[12pt,a4paper,oneside]{report}             % Single-side
 \documentclass[12pt,a4paper,twoside,openright]{report}  % Duplex
 
+\usepackage[final]{pdfpages}
+\usepackage{mathrsfs}
 %\PassOptionsToPackage{chapternumber=Huordinal}{magyar.ldf} %betuvel a fejezetek szama
 \usepackage{t1enc}
 %\usepackage[latin2]{inputenc}
@@ -12,6 +14,7 @@
 \usepackage[thmmarks]{ntheorem}
 \usepackage{graphics}
 \usepackage{epsfig}
+\usepackage{epstopdf}
 \usepackage{listings}
 \usepackage{color}
 %\usepackage{fancyhdr}
@@ -29,7 +32,7 @@
 
 \usepackage{subfig}
 
-\usepackage[underline=true,rounded corners=false]{pgf-umlsd}
+\usepackage[underline=true,rounded corners=false]{etc/pgf-umlsd}
 \usepackage[titletoc]{appendix}
 \usepackage{relsize}
 
@@ -62,14 +65,16 @@
 % another possibility is to use the body of this command without \fancypagestyle
 % and use \pagestyle{fancy} but in that case the special pages
 % (like the ToC, the References, and the Chapter pages)remain in plane style
-
-\pagestyle{plain}
+\usepackage[left=25mm,right=25mm,top=25mm,bottom=25mm,bindingoffset=10mm]{geometry}
+%\pagestyle{plain}
+\pagestyle{fancy}
 %\setlength{\parindent}{0pt} % áttekinthet?bb, angol nyelv? dokumentumokban
 % jellemz? \setlength{\parskip}{8pt plus 3pt minus 3pt} % áttekinthet?bb, angol nyelv? dokumentumokban jellemz?
-\setlength{\parindent}{30pt} % magyar nyelv? dokumentumokban jellemz?
-\setlength{\parskip}{0pt}    % magyar nyelv? dokumentumokban jellemz?
+%\setlength{\parindent}{30pt} % magyar nyelv? dokumentumokban jellemz?
+%\setlength{\parskip}{0pt}    % magyar nyelv? dokumentumokban jellemz?
 
-\marginsize{35mm}{25mm}{15mm}{15mm} % anysize package
+%\marginsize{35mm}{25mm}{25mm}{25mm} % anysize package
+%\marginsize{45mm}{45mm}{15mm}{15mm} % anysize package
 \setcounter{secnumdepth}{0}
 \sectionfont{\large\upshape\bfseries}
 \setcounter{secnumdepth}{2}
@@ -80,18 +85,18 @@
 %	Setup hyperref package
 %--------------------------------------------------------------------------------------
 \hypersetup{
-    %bookmarks=true,            % show bookmarks bar?
-    %unicode=false,             % non-Latin characters in Acrobat’s bookmarks
-    %pdftitle={\vikcim},        % title
-    %pdfauthor={\vikszerzo},    % author
-    %pdfsubject={\vikdoktipus}, % subject of the document
-    %pdfcreator={\vikszerzo},   % creator of the document
-    pdfproducer={Producer},    % producer of the document
-    pdfkeywords={keywords},    % list of keywords
+    bookmarks=true,            % show bookmarks bar?
+    unicode=true,             % non-Latin characters in Acrobat’s bookmarks
+    pdftitle={\vikcim},        % title
+    pdfauthor={\vikszerzo},    % author
+    pdfsubject={\vikdoktipus}, % subject of the document
+    pdfcreator={\vikszerzo},   % creator of the document
+    pdfproducer={latex},    % producer of the document
+    pdfkeywords={dusty plasma, GPGPU, image processing, OpenCL, particle detecting},    % list of keywords
     pdfnewwindow=true,         % links in new window
     %pdfborder={0 0 0.5 [3 3]},
     colorlinks=true,           % false: boxed links; true: colored links
-    linkcolor=black,           % color of internal links
+    linkcolor=blue,           % color of internal links
     citecolor=black,           % color of links to bibliography
     citebordercolor={0 1 0},
     filecolor=black,           % color of file links
@@ -188,7 +193,7 @@
 %labelsep=none,
 %font={footnotesize,it},
 %justification=justified,
-width=.75\textwidth,
+width=0.8\textwidth,
 aboveskip=10pt}
 
 
@@ -201,24 +206,25 @@ aboveskip=10pt}
 %\pagenumbering{arabic}
 %\pagenumbering{roman}
 \onehalfspacing
-\setcounter{page}{999}
+\setcounter{page}{1}
+\pagenumbering{roman}
 \include{titlepage}
 \clearpage
 
-\pagenumbering{roman}
-\setcounter{page}{1}
+
+%\setcounter{page}{1}
 \pdfbookmark{\contentsname}{toc}
 \tableofcontents%\addcontentsline{toc}{chapter}{Tartalomjegyzék}
 \clearpage
 
 
 \include{declaration}
+\cleartorightpage
 \include{project}
-\clearpage
-
 
 \include{abstract}
 
+\cleartorightpage
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
@@ -230,16 +236,25 @@ aboveskip=10pt}
 \include{kernel}
 \include{vizsgalat}
 \include{hasonlit}
-%\include{chapter7}
+
 \include{aftermatch}
 
+%----------------------------------------------------------------------------
+\appendix
+%----------------------------------------------------------------------------
+\chapter*{Függelék}\addcontentsline{toc}{chapter}{Függelék}
+\setcounter{chapter}{6}  % a fofejezet-szamlalo az angol ABC 6. betuje (F) lesz
+\setcounter{equation}{0} % a fofejezet-szamlalo az angol ABC 6. betuje (F) lesz
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+\numberwithin{lstlisting}{section}
+%\numberwithin{tabular}{section}
+%----------------------------------------------------------------------------
+\include{ide}
 
+\cleartorightpage
 \pagenumbering{Roman}
 \setcounter{page}{1}
-
-\appendix
-\include{ide}
- 
 
 \listoffigures	\addcontentsline{toc}{chapter}{Ábrák jegyzéke}
 \listoftables	\addcontentsline{toc}{chapter}{Táblázatok jegyzéke}

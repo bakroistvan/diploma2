@@ -1,11 +1,10 @@
 %----------------------------------------------------------------------------
 \chapter{Összegzés}
 %----------------------------------------------------------------------------
-\cbstart
 	Dolgozatomban bemutattam a porosplazma kísérletek apparátusát. A kísérlet során a kristályrácsba
 	rendeződő részecskékről egy nagysebességű kamerával fényképek készülnek. A dolgozatomban ezen
-	képeket, kellett feldolgoznom és a részecskék pozícióját detektálnom.
-	A pozíciók a fizikai modell/szimuláció validálására szolgálnak.
+	képeket, kellett feldolgoznom és a részecskék pozícióját detektálnom, amely pozíciók a fizikai modell/szimuláció validálására
+	szolgálnak.
 	
 	Ismertettem a részecske detektálásának módszerét szűrés és adaptív döntési küszöb használatával.
 	Az elterjedt FIR Gauss szűrő helyett a hatékonyabb medián szűrőt javasoltam és alkalmaztam. A
@@ -14,18 +13,15 @@
 	
 	Ezután áttekintettem az OpenCL keretrendszert, amit a párhuzamos program megírásának segítségére
 	használtam. Az itt ismertetett megállapításokat figyelembe véve állítottam össze a párhuzamos
-	program lépéseit, amit részleteztem is.
+	program lépéseit, amit részleteztem is. Kiemelném az OpenCL keretrendszer használatának előnyét, ami a platform és párhumazos
+	számításra képes eszköztől való függetlenség.
 	
-	Végül az elkészült programot CPU-n és GPU-n is futtatva a futási idejüket összevetettem és
-	azonosítottam a gyorsulás forrását kitérve a processzormagra és a memóriájára.
+	A program első verziója korábban készült és letárolt fájlok feldolgozását végezte és eredményét fájlba mentette el. Míg a végső
+	program a kamera képét dolgozta online dolgozza fel és eredményét OpenGL használatával meg is jeleníti.
 	
-	\section*{További feladatok:}
+	\section*{További fejlesztési lehetőségek}
 	\begin{itemize}
-		\item A host-program real-time mérésbe helyezése egy producer-consumer sémájú szál megoldás
-		alkalmazásával,
-		\item Az eredmény grafikus  megjelenítése pl.: OpenGL használtatával,
-		\item Az OpenCL szabvány által specifikált vektor műveletek támogatásának kiaknázása, ami az Intel
-		Xeon PHI processzorkártyában rejlő teljesítményt ki tudná aknázni.
+		\item Felhasználó által választott platformon belül taláható összes eszköz számítási teljesítményének kihasználása,
+		\item A CProducer szál által futtatási sorba rakott kernel befejezésére ne tétlenül várjon, ezzel javítva a feldolgozási
+		sebességen.
 	\end{itemize}
-	
-\cbend

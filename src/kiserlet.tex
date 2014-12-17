@@ -152,23 +152,33 @@ A kísérlet során az előbb említett elektromos gázkisülésbe plazma teréb
 \section{Használt kamera tulajdonságai}
 %----------------------------------------------------------------------------
 \todo{lehet h az OPENCL után kéne}
-
-
 %\usepackage{graphics} is needed for \includegraphics
-\begin{figure}[htp]
+\begin{figure}[!h]
 \begin{center}
-  %\includegraphics[width=figureWidth\columnwidth]{filename}
-  \missingfigure{kamera szoftver}
-  \caption[Kamera vezérlő szoftvere]{Kamera vezérlő szoftvere (forrás cite{xxx})}
-  \label{fig:cam_sw}
+  \includegraphics[width=0.75\columnwidth,page=2]{Prosilica_GX_DataSheet_1050_en.pdf}
+  \caption[A kamera adatlapja]{A kamera adatlapja (forrás: \cite{gx1050})}
+  \label{fig:cam_doc}
 \end{center}
 \end{figure}
 
+%\usepackage{graphics} is needed for \includegraphics
+\begin{figure}[htp]
+\centering
+	\subfloat[A használt kamera.]{
+		\includegraphics[width=0.95\columnwidth]{figures/camera.jpg}%
+		\label{fig:cam_pic}
+	}
+	\\
+	\subfloat[A kamera beállításainak és a képének megjelenítésére alkalmas tool.]{
+		\missingfigure{VimbaViewer kamera szoftver}
+		\label{fig:cam_sw}
+	}
+	\caption[A használt kamera és a hozzá biztosított SW.]{A használt kamera és a hozzá biztosított SW.
+	(forrás \cite{gx1050})}
+	\label{fig:cam}
+\end{figure}
 
-
-
-
-
+\clearpage
 
 	
 %----------------------------------------------------------------------------

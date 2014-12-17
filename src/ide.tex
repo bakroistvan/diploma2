@@ -1,5 +1,5 @@
 %----------------------------------------------------------------------------
-\chapter{Fejlesztőkörnyezet összeállítása}
+\section{Fejlesztőkörnyezet összeállítása}
 %----------------------------------------------------------------------------
 
 	OpenCL kód fejlesztése történhet Windows alatt NVIDIA Nsight Visual Studio
@@ -13,8 +13,8 @@
 	A Linux diszrók közül a CentOS-re \cite{centos} esett a választás, ami 
 	csupán a fejlesztőkörnyezet egyszerűbb telepítése végett történt így.
 
-\section*{Software Developement Kit-ek (SDK) telepítése} \label{sect:sdk}
-\subsection*{nVidia támogatás telepítése}
+\subsection*{Software Developement Kit-ek (SDK) telepítése} \label{sect:sdk}
+\subsubsection*{nVidia támogatás telepítése}
 	A legtöbb mai Linux disztrók tartalmaznak drivert az nVidia videó kártyákhoz.
 	Ez az open source Nouveau, ami még nem támogatja az OpenCL-t.
 	Így a hivatalos nVidia drivert fel kell telepítenünk.
@@ -22,73 +22,73 @@
 	Ezt két helyen is meg kell tennünk: 
 	egyrészt a \texttt{/etc/modprobe.d/blacklist.conf} fájlhoz hozzá kell adnunk a
 	következő sort:
-	\begin{lstlisting}
-	blacklist nouveau
-	\end{lstlisting}
+\begin{lstlisting}
+blacklist nouveau
+\end{lstlisting}
 	majd újragenerálni az INITial RAM File System-et (initramfs), ami a rendszer
 	inicializásáért felelős:
-	\begin{lstlisting}
-	$ mv /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r).img.bak
-	$ dracut -v /boot/initramfs-$(uname -r).img $(uname -r)
-	\end{lstlisting}
+\begin{lstlisting}
+$ mv /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r).img.bak
+$ dracut -v /boot/initramfs-$(uname -r).img $(uname -r)
+\end{lstlisting}
 	másrészt a rendszer indító GRand Unified Bootloader-ben (GRUB) is le kell
 	tiltani a betöltését a kernel opció alábbi paranccsal való kiegészítésével:
-	\begin{lstlisting}
-	nouveau.modeset=0
-	\end{lstlisting}
+\begin{lstlisting}
+nouveau.modeset=0
+\end{lstlisting}
 	Továbbá a telepítéshez szükséges követelményeket a következő parancsokkal telepíthetjük:
-	\begin{lstlisting}
-	$ yum groupinstall "Development Tools"
-	$ yum install kernel-devel kernel-headers dkms
-	\end{lstlisting}
+\begin{lstlisting}
+$ yum groupinstall "Development Tools"
+$ yum install kernel-devel kernel-headers dkms
+\end{lstlisting}
 	Ekkor a rendszer újraindítása után készen állunk a hivatalos nVidia driver
 	telepítésére. A drivert a következő linken lehet letölteni \cite{nvidia-driver}.
 	A grafikus felületet a telepítés idejére le kell állítani az X grafikus
 	kiszolgálót
-	\begin{lstlisting}
-	$ init 3
-	\end{lstlisting}
+\begin{lstlisting}
+$ init 3
+\end{lstlisting}
 	paranccsal, majd a konzolban telepíthető a driver, ami a legtöbb munkát elvégzi helyettünk. Ezután az
-	\begin{lstlisting}
-	$ init 5
-	\end{lstlisting}
+\begin{lstlisting}
+$ init 5
+\end{lstlisting}
 	paranccsal áttérhetünk a grafikus felületre, ahol a megfelelő környezeti változókat kiegészíthetjük.
 	Legcélratörőbb, ha a \texttt{$\tilde{}$/.bashrc} fájlt módosítjuk és hozzáadjuk
 	a következő sorokat:
-	\begin{lstlisting}
-	PATH=$PATH:$HOME/bin:/usr/local/cuda/bin
-	export PATH
-	
-	CUDA_INSTALL_PATH=/usr/local/cuda
-	export CUDA_INSTALL_PATH
-	
-	LD_LIBRARY_PATH=/usr/local/cuda/lib64:/opt/intel/opencl/bin
-	export LD_LIBRARY_PATH
-	
-	NVSDKCOMPUTE_ROOT=/usr/local/cuda/lib64
-	export NVSDKCOMPUTE_ROOT
-	
-	INTELOCLSDKROOT=/opt/intel/opencl
-	export INTELOCLSDKROOT
-	\end{lstlisting}
+\begin{lstlisting}
+PATH=$PATH:$HOME/bin:/usr/local/cuda/bin
+export PATH
+
+CUDA_INSTALL_PATH=/usr/local/cuda
+export CUDA_INSTALL_PATH
+
+LD_LIBRARY_PATH=/usr/local/cuda/lib64:/opt/intel/opencl/bin
+export LD_LIBRARY_PATH
+
+NVSDKCOMPUTE_ROOT=/usr/local/cuda/lib64
+export NVSDKCOMPUTE_ROOT
+
+INTELOCLSDKROOT=/opt/intel/opencl
+export INTELOCLSDKROOT
+\end{lstlisting}
 	Mivel az nVidia limitálja a kernel futási időt 5 másodpercben limitálja,
 	hosszabb kernel futási idő esetén a rendszer lefagy.
 	Ezt a korlátozást a \texttt{/etc/X11/xorg.conf} fájl \texttt{Device} részének a
 	következővel való kiegészítésével érhetjük el:
-	\begin{lstlisting}
-	Option "Interactive" "boolean"
-	\end{lstlisting}
+\begin{lstlisting}
+Option "Interactive" "boolean"
+\end{lstlisting}
 	Érvényre juttatásához az X újraindítása szükséges (CTRL+ALT+Backspace).
 	Ezután nagyobb problémák esetén már nem fogja lefagyasztani a rendszert a
 	watchdog.
 
-\subsection*{Intel támogatás telepítése}
+\subsubsection*{Intel támogatás telepítése}
 	A következő oldalról letölthetjük az SDK-t \cite{intel-sdk}.
 	A kicsomagolás után az \texttt{./install-cpu.sh} program futtatásával
 	telepíthető.
 	Ezután még szükséges a \texttt{LD\_LIBRARY\_PATH} beállítása.
 
-\subsection*{Eclipse – Integrated Developement Environment}
+\subsubsection*{Eclipse – Integrated Developement Environment}
 	A fejlesztés és hibakeresés egy Integrated Developement Enviroment (IDE)
 	segítségével könnyebb.
 	Az open source Eclipse \cite{eclipse} fejlesztőkörnyezet a különböző pluginjaival épp
@@ -99,46 +99,46 @@
 	Eclipse for Parallel Application Developers verzió illik, mivel a korábban említett pluginokat már eleve tartalmazza.
 
 
-\section*{Új (Hello World) projekt létrehozása}
+\subsection*{Új (Hello World) projekt létrehozása}
 	Az OpenCL fejlesztését konyhanyelven bemutató OpenCL Programming Guide \cite{Munshi2011}
 	könyvben szereplő Hello World programot a következő linken lehet letölteni
 	\cite{hellow}.
 	A kód fordítása elött egy Eclipse projektet létrehozunk és a
 	fordításhoz szükséges beállításokat elvégezzük.
 
-\subsection*{Empty C project létrehozása}
+\subsubsection*{Empty C project létrehozása}
 	Először egy üres C projektet hozunk létre, ami folyamatát a \ref{fig:newproj} 
 	ábrán látjuk. A korábban említettek szerint fordítónak a Linux GCC-t
 	állítjuk be.
 	\begin{figure}[!h]
 	\centering
-	\includegraphics[width=67mm, keepaspectratio]{figures/eps/newC.eps}\hspace{1cm}
-	\includegraphics[width=67mm, keepaspectratio]{figures/eps/newP.eps}\\\vspace{5mm}
-	\includegraphics[width=67mm, keepaspectratio]{figures/eps/conf.eps}\hspace{1cm}
+		\includegraphics[width=67mm, keepaspectratio]{figures/eps/newC.eps}\hspace{1cm}
+		\includegraphics[width=67mm, keepaspectratio]{figures/eps/newP.eps}\\\vspace{5mm}
+		\includegraphics[width=67mm, keepaspectratio]{figures/eps/conf.eps}\hspace{1cm}
 	\caption{Új Eclipse projekt létrehozása} 
 	\label{fig:newproj}
 	\end{figure}
 
-\subsection*{Compiler beállítása}
+\subsubsection*{Compiler beállítása}
 	A létrehozott projektre jobb gombbal kattíntva a tulajdonságára kattintva állíthatjuk be a fordítót a \ref{fig:compiler} ábrának
 	megfelelően.
 	A beállítások kiterjednek a GNU-C99 nyelv szerinti fordításra és a korábbi részben telepített SDK-ban található include mappa
 	beállítására.
 	\begin{figure}[!h]
 	\centering
-	\includegraphics[width=67mm, keepaspectratio]{figures/eps/lang.eps}\hspace{1cm}
-	\includegraphics[width=67mm, keepaspectratio]{figures/eps/include.eps}\\\vspace{5mm}
-	\includegraphics[width=67mm, keepaspectratio]{figures/eps/misc.eps}
+		\includegraphics[width=67mm, keepaspectratio]{figures/eps/lang.eps}\hspace{1cm}
+		\includegraphics[width=67mm, keepaspectratio]{figures/eps/include.eps}\\\vspace{5mm}
+		\includegraphics[width=67mm, keepaspectratio]{figures/eps/misc.eps}
 	\caption{Compiler beállításai} 
 	\label{fig:compiler}
 	\end{figure}
 
-\subsection*{Linker beállítása}
+\subsubsection*{Linker beállítása}
 	A linkert a \ref{fig:linker} ábra szerint állítjuk be.
 	\begin{figure}[!h]
 	\centering
-	\includegraphics[width=67mm, keepaspectratio]{figures/eps/link.eps}\hspace{1cm}
-	\includegraphics[width=67mm, keepaspectratio]{figures/eps/link_misc.eps}\\\vspace{5mm}
+		\includegraphics[width=67mm, keepaspectratio]{figures/eps/link.eps}\hspace{1cm}
+		\includegraphics[width=67mm, keepaspectratio]{figures/eps/link_misc.eps}\\\vspace{5mm}
 	\caption{Linker beállításai} 
 	\label{fig:linker}
 	\end{figure}

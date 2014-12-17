@@ -3,12 +3,12 @@
 % ----------------------------------------------------------------------------
 	A $~100\ \mathrm{FPS}$-el érkező képeket az eszköz globális memóriájának méretét figyelembe véve dolgozom fel.
 	Ha az eszköz memóriájába $100$ képnél kevesebb fér be, akkor a másodperc fennmaradó képei eldobásra kerül 
-	A megjelenítésnek nem fontos szigorúan real-time működésűnek lennie (soft real-time), adott fokú késleltetés megengedhető, a
-	határidő elmulasztása nem jár súlyos következménynel. A program ciklikusan a következő felsorolásban olvasható lépéseket hajtja
+	A megjelenítésnek nem fontos szigorúan real-time működésűnek lennie (soft real-time), adott fokú késleltetés megengedhető 
+	(határidő elmulasztása nem jár súlyos következménynel). A program ciklikusan a következő felsorolásban olvasható lépéseket hajtja
 	végre. A lépések a későbbi \ref{sec:parallel} részben ismertetettek végett párhuzamosan időben átlapolódva történnek. 
 	\begin{enumerate*}
 		\item Eszközön futtatandó kernelek inicializálása, argumentumainak beállítása,
-		\item Kép fogadása (gyűjtése) a kamerától GigE porton keresztül (beolvasása a host-memóriába),
+		\item Kép fogadása (gyűjtése) a kamerától GigE interfészen keresztül (beolvasása a host-memóriába),
 		\item Képek leküldése a host-memóriájából az eszköz globális memóriájába,
 		\item Kernelek futtatása az eszközön:
 		\begin{enumerate*}
@@ -40,19 +40,16 @@
 	Adódik, hogy a host programot több konkurens szálra bontva kerüljön implementálásra az ismert Producer-Consumer
 	\cite{EWD:EWD329pub} mintát alkalmazva. Ezzel elérhető, hogy a program feldolgozási sebessége ne a kép fogadásának és a kernel
 	futási idejének összege legyen, hanem ezek közül a időben rövidebbig.
-	Ez viszont szükségessé teszi, hogy az adatkapocsatot a két szál között várakozási listával szükséges megoldani.
+	Ez viszont szükségessé teszi, hogy az adatkapcsolatot a két szál között várakozási listával legye biztosítva.
 	Így a szálak egymásra várásának csökkentését lehet elérni.
 	
-	\cbstart \textit{
 	A szálak létrehozását és kezelését a \textit{Boost C++ Libraries} \cite{boost} keretrendszer
 	megfelelő függvényhívásai oldják meg. A keretrendszer parancssori argumentumkezelést, szálkezelést, szemafort, várakozási
 	listát és atomi működésű operátorokkal rendelkező változókat nyújt a programozó számára.
 	A szálak közötti adatkapcsolást FIFO típusú (single producer - single consumer) várakozási listával oldom meg.
-	} \cbend
 	
-	A \texttt{main} szálon kerül implementálásra a kamera képeinek fogadása és a várakozási sorba állítása
-	\footnote{Természetesen a \texttt{main} szál a program felhasználó általtörténő futtatása által meghívott függvény, így az
-	említettek előtt még inicializáció is történik. Ezt később részletezem. A szálra producer szálként kell tekintenünk a kamera képének fogadása és
+	A \texttt{Main} szálon kerül implementálásra a kamera képeinek fogadása és a várakozási sorba állítása\footnote{Természetesen a
+	\texttt{main} szál a program felhasználó általtörténő futtatása által meghívott függvény, így az említettek előtt még inicializáció is történik. Ezt később részletezem. A szálra producer szálként kell tekintenünk a kamera képének fogadása és
 	várakozási listába tétele végett.}.
 	További consumer és egyben producer szálon a várakozási sorban található kép elővétele majd feldolgozására kerül sor az
 	OpenCL kernel által, aminek eredménye a megjelenítő OpenGL bufferébe kerül letárolásra.
@@ -101,10 +98,10 @@ public:
 	A paraméterek értelmezése a következő:
 	\begin{description}[noitemsep]
 	\item[only\_global] Csak globális memória haszálata vagy lokálisat is használjon. Adott eszközök esetén a lokális memória a
-	globális memóriába van mappelve, így használata csupán felesleges adatmozgatást jelentene $\texttt{only\_gbolbal} = 0$,
-	\item[file\_N] A kép 2D-s mérete, $\texttt{fileN} = 1024$,
+	globális memóriába van mappelve, így használata csupán felesleges adatmozgatást jelentene $\texttt{only\_global} = 0$,
+	\item[file\_N] A kép 2D-s mérete, $\texttt{file\_N} = 1024$,
 	\item[nh\_N] A medián szűrő mozgó ablakának 2D-s mérete (páratlan szám) pl.: $\texttt{nh\_N} = 3,5,7,9$ (magasabb fokú szűrőt
-	nem érdemes használni, mivel nagy nemlinearitással rendelkezik),
+	nem érdemes használni, mivel nagy nemlinearitással rendelkezne),
 	\item[tail] a szűrés által letrejövő pixelek a kép szélén, azaz \texttt{tail = (nh\_N -1) / 2},
 	\item[Bfile\_N] az így kapot kép 2D-s mérete, azaz \texttt{Bfile\_N = file\_N + 2*tail},
 	\item[pplN] javasolt lokális méret, pl.: a compute unit-ok száma,
@@ -196,15 +193,18 @@ if((*pAqImageInfo).iImageSize != pms.file_N*pms.file_N) {
 * frame elmentese in_N-edik helyre
 */
 for(uint a = 0; a < pms.file_N; a++) {
-	for(uint b = 0; b < pms.file_N; b++) {
-		input[in_N*pms.Bfile_N*pms.Bfile_N + (a+pms.tail)*pms.Bfile_N + (b+pms.tail)] = (*pAqImageInfo).pImageBuffer[a*pms.file_N + b];
-	}
+for(uint b = 0; b < pms.file_N; b++) {
+	input[in_N*pms.Bfile_N*pms.Bfile_N + (a+pms.tail)*pms.Bfile_N + (b+pms.tail)] = (*pAqImageInfo).pImageBuffer[a*pms.file_N + b];
+}
 }
 
 while(!input_queue.push(iim)) { ; }			// a varakosazi lista berakas
 
 input_mtx.unlock(); // eroforras felszabaditasa (consumer mostmar dolgozhat rajta)
 \end{lstlisting}
+	
+	A fogadott kép az imput bufferbe közepébe kerül bemásolásra. A buffer szélei zérus értékű marad. Erre a kiegészítésre a későbbi
+	szűrés során alkalmazott mozgó ablak végett van szükség.
 	
 \section{CProducer szál}
 Ezen szál feldolgozza az \texttt{input\_queue} várakozási listában található képeket az OpenCL kernelek meghívásával és annak

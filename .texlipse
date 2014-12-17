@@ -1,8 +1,8 @@
 #TeXlipse project settings
-#Sun Nov 02 18:23:42 CET 2014
+#Wed Dec 17 17:36:19 CET 2014
 markTmpDer=true
-builderNum=6
-outputDir=out
+builderNum=2
+outputDir=out/
 makeIndSty=
 bibrefDir=
 outputFormat=pdf
@@ -10,5 +10,5 @@ tempDir=tmp
 mainTexFile=main.tex
 outputFile=bakro-diploma2.pdf
 langSpell=hu
-markDer=true
-srcDir=src
+markDer=false
+srcDir=src/
