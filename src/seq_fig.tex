@@ -10,13 +10,15 @@
 	\newinst{cons}{Consumer}
 	\tikzstyle{inststyle}+=[left color = blue, right color = blue, rounded corners=3mm]
 	\newinst[1.5]{ogl}{OpenGL}
-		\begin{call}{m}{start()}{cons}{}
+		\begin{call}{m}{start()}{cons}{join()}
 		%\prelevel
 			
 		\begin{messcall}{cons}{start()}{ogl}
 			\begin{call}{m}{start()}{prod}{join()}
 			
 			\begin{sdblock}{processingLoop}{}
+				\mess{m}{input-queue}{prod}
+				
 				\begin{call}{prod}{enqueueKernel()}{ocl}{ReadBuffer()}
 				\end{call}
 				
@@ -26,7 +28,7 @@
 					\end{call}
 				\end{sdblock}
 				
-				\mess{prod}{buff[][]}{ogl}
+				\mess{prod}{output-queue}{ogl}
 				
 				\begin{call}{ogl}{glutSwapBuffers()}{ogl}{}
 				\end{call}

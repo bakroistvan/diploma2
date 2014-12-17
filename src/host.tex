@@ -101,27 +101,31 @@ public:
 	A paraméterek értelmezése a következő:
 	\begin{description}[noitemsep]
 	\item[only\_global] Csak globális memória haszálata vagy lokálisat is használjon. Adott eszközök esetén a lokális memória a
-	globális memóriába van mappelve, így használata csupán felesleges adatmozgatást jelentene,
-	\item[file\_N] A kép 2D-s mérete jelen esetben $\texttt{FILE\_N} = 1024$,
-	\item[nh\_N] A medián szűrő mozgó ablakának 2D-s mérete (páratlan szám) pl.: $\texttt{NH\_N} = 3,5,7,9$ (magasabb fokú szűrőt nem
-	érdemes használni, mivel nagy nemlinearitással rendelkeik),
+	globális memóriába van mappelve, így használata csupán felesleges adatmozgatást jelentene $\texttt{only\_gbolbal} = 0$,
+	\item[file\_N] A kép 2D-s mérete, $\texttt{fileN} = 1024$,
+	\item[nh\_N] A medián szűrő mozgó ablakának 2D-s mérete (páratlan szám) pl.: $\texttt{nh\_N} = 3,5,7,9$ (magasabb fokú szűrőt
+	nem érdemes használni, mivel nagy nemlinearitással rendelkezik),
 	\item[tail] a szűrés által letrejövő pixelek a kép szélén, azaz \texttt{tail = (nh\_N -1) / 2},
 	\item[Bfile\_N] az így kapot kép 2D-s mérete, azaz \texttt{Bfile\_N = file\_N + 2*tail},
 	\item[pplN] javasolt lokális méret, pl.: a compute unit-ok száma,
 	\item[localN] a tényleges lokális méret egy work-group-on belül,
 	\item[globalN] az összes work-item számossága,
-	\item[aSize] az eszköz globális memóriájában allokálható maximális memória méret,
-	\item[lSize] az eszköz lokális memóriájának mérete,
-	\item[mCuint] az eszköz egyszerre futtatható szálának (compute unit) száma.
+	\item[aSize] az eszköz globális memóriájában allokálható maximális memória méret\\
+		(\texttt{CL\_DEVICE\_MAX\_MEM\_ALLOC\_SIZE}),
+	\item[lSize] az eszköz lokális memóriájának mérete\\
+		(\texttt{CL\_DEVICE\_LOCAL\_MEM\_SIZE}),
+	\item[mCuint] az eszköz egyszerre futtatható szálának (compute unit) száma \\
+		(\texttt{CL\_DEVICE\_MAX\_COMPUTE\_UNITS}).
 	\end{description}
-	Értékük a következő részben kerül ismertetésre.\todo{inkább itt.}
+	%Értékük a következő részben kerül ismertetésre.\todo{inkább itt.}
 	
 
 	\subsection*{Inicializálás}
 	A korábban említett várakozási lista fix méretű a $100\ \mathrm{FPS}$-el érkező képek $1$ másodpercnyi feldolgozásához szükséges
-	méretű. Ennek megfelelően a várakozási lista \texttt{BUFF\_N=100} hosszúsággal kerül inicializálásra és debug
-	esetén \texttt{Mimage} osztályt vagy release esetén \texttt{uint8\_t*} pointereket tartalmaz, amik közvetlenül/közvetve a
-	képre mutatnak. A képek tárolása $100 \times 1024 \times 1024$ \texttt{uint8\_t} típusú tömbben kerül tárolásra.
+	méretű. Ennek megfelelően mivel két várakozási listára van szükség és a kamera egy képe minkettőn ``végigmegy'', így
+	\texttt{BUFF\_N=50} hosszúsággal kerül inicializálásra és debug esetén \texttt{Mimage} osztályt illetve release esetén
+	\texttt{uint8\_t*} pointereket tartalmaz, amik közvetlenül/közvetve a képre mutatnak.
+	A képek $\texttt{BUFF\_N} \times 1024 \times 1024$ \texttt{uint8\_t} típusú tömbben kerül tárolásra.
 	Az \texttt{Mimage} osztályt a következőképpen definiáltam:
 	
  %float=!H ,caption=Képet tartalmazó osztály]
@@ -157,7 +161,7 @@ boost::atomic<int> out_N(-1);
 
 \noindent Az \texttt{input\_queue}-ba a kamera képéhez tartozó, az \texttt{output\_queue}-ba az OpenCL-es feldolgozás utáni
 	\texttt{Mimage} osztály példánya kerül. A szemaforok és az atomi változók a producer és a consumer szálak szoftveres/hardveres
-	párhuzamos futása végett van szükség, elkerülve velük a közöttük fennáló versenyhelyzetet.
+	párhuzamos futása végett van szükség, elkerülve a szálak között fennáló versenyhelyzetet.
 
 	Ezután a Consumer és a Producer szál létrehozása (forkja) következik.
 	
@@ -179,11 +183,11 @@ input_mtx.lock();						// input buffer (eroforras) lefoglalasa
 in_N++;
 in_N = in_N % BUFF_N;					// cirkularis korbeforogas vegett
  
-Mimage iim(in_N, FILE_N, &input[in_N*FILE_N*FILE_N]);
+Mimage iim(in_N, pms.Bfile_N, &input[in_N*pms.Bfile_N*pms.Bfile_N]);
 
 while(!input_queue.write_available()) {;}	// a buffer/varakozasi lista kiurulesere varas
 
-if((*pAqImageInfo).iImageSize != FILE_N*FILE_N) {
+if((*pAqImageInfo).iImageSize != pms.file_N*pms.file_N) {
 	std::cout << std::endl << "wrong camera image size" << std::endl;
 	exit(EXIT_FAILURE);
 }
@@ -191,9 +195,9 @@ if((*pAqImageInfo).iImageSize != FILE_N*FILE_N) {
 /*
 * frame elmentese in_N-edik helyre
 */
-for(uint a = 0; a < FILE_N; a++) {
-	for(uint b = 0; b < FILE_N; b++) {
-		input[in_N*FILE_N*FILE_N + (a+pms.tail)*pms.Bfile_N + (b+pms.tail)] = (*pAqImageInfo).pImageBuffer[a*pms.file_N + b];
+for(uint a = 0; a < pms.file_N; a++) {
+	for(uint b = 0; b < pms.file_N; b++) {
+		input[in_N*pms.Bfile_N*pms.Bfile_N + (a+pms.tail)*pms.Bfile_N + (b+pms.tail)] = (*pAqImageInfo).pImageBuffer[a*pms.file_N + b];
 	}
 }
 
@@ -203,8 +207,8 @@ input_mtx.unlock(); // eroforras felszabaditasa (consumer mostmar dolgozhat rajt
 \end{lstlisting}
 	
 \section{CProducer szál}
-Ezen szál feldolgozza az \texttt{input\_queue} várakozási listában található képeket az OpenCL kernel által és annak eredményét az
-\texttt{output\_queue}-ba sorakoztatja fel a későbbi megjelenítés végett.
+Ezen szál feldolgozza az \texttt{input\_queue} várakozási listában található képeket az OpenCL kernelek meghívásával és annak
+eredményét az \texttt{output\_queue}-ba sorakoztatja fel a későbbi megjelenítés végett.
 	
 	\subsection{OpenCL inicializálás}
 	Az inicializáláshoz első körben szükség van az eszköz fontosabb tulajdonságaira. Az eszköz globális, lokális memóriájának mérete,
@@ -221,18 +225,18 @@ Ezen szál feldolgozza az \texttt{input\_queue} várakozási listában találhat
 	A lokális memória nagy sebessége és gyors elérése végett alapvető a preferáltsága a párhuzamos applikációkban.
 	A program futása során kerül megállíptásra a használt értéke.
 	
-	A szűrt kép minden pixelének kiszámításához egy work-item-et rendelek, így egy work-item-hez \texttt{NH\_N $\times$ NH\_N}
-	lokális memóriát rendelek. Ezáltal a szűrés teljes mértékben a lokális memóriában történik, ezzel lehet optimális OpenCL kódot írni.
+	A szűrt kép minden pixelének kiszámításához egy work-item-et rendelek, így egy work-item-hez a medián szűrő ablakának megfelelő
+	méretű, \texttt{nh\_N $\times$ nh\_N} darab lokális memóriát rendelek. Ezáltal a szűrés teljes mértékben a lokális memóriában
+	történik, ezzel lehet optimális OpenCL kódot írni.
 	
 	\subsection{Kép kernelekkel történő feldolgozása}
-	\ldots
+	A kernelek fordítása és a megfelelő argumetnumok beállítása után először a medián szűrés, majd a detektálási szint számítása
+	végül a detektálás történik. Hibakeresés során a közbülső eredmények is visszaolvasásra kerül.
 	
-
-
+	
 \section{Consumer szál}
-	\dots
-	\subsection*{OpenGL inicializáció}
-	\ldots
-	
-	\subsection*{OpenGL callback függvény}
-	\dots
+	Először az OpenGL inicializálás és a megjelenítő ablak létrehozása történik. 
+	Ezután a rajzolásra és az időzítésre alkalmas callback függvények kerülnek regisztálásra. Az időzítő függvény az aktuális
+	megjelenítés i frekvenciát átlagolással számítja továbbá ennek megfelelően beállítja a következő rajzolás határidejét. A rajzoló
+	callback függvény a kimeneti \texttt{output\_queue}-ből kivesz egy képet (elemet), majd azt az OpenGL bufferébe másolja. Továbbá
+	a várakozási lista annyi elemét törli ki (dobja el), hogy a korábban mért FPS érték szerint mind megjelíthető legyen.  
