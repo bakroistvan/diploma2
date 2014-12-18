@@ -35,7 +35,7 @@
 	A változó futási időről elmondható, hogy a bemeneti kép értékeitől függ. Pontosabban a medián szűrő ablakain belül található
 	pixelek rendezettségétől. Hiszen minél rendezettebb, annál gyorsabban található meg a mediánját.
 	A medián számításának worst case execeution time-ja (WCET), pontosabban wc. lépésszáma ismert alogoritmuselméletből, ami korlátos
-	és megegyezik - a bemenet $N$ számossága esetén - a $O(N \log N)$ \todo{fel lehet javítani\ldots} értékkel.
+	és megegyezik - a bemenet $N$ számossága esetén - a $O(\floor{N/2} \log N)$ értékkel.
 	
 	Adódik, hogy a host programot több konkurens szálra bontva kerüljön implementálásra az ismert Producer-Consumer
 	\cite{EWD:EWD329pub} mintát alkalmazva. Ezzel elérhető, hogy a program feldolgozási sebessége ne a kép fogadásának és a kernel
