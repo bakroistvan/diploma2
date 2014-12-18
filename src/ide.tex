@@ -6,12 +6,10 @@
 	Edition \cite{nsight} és Linux alatt GCC-vel \cite{gcc}.
 	Az Open Source fejlesztőrendszer ingyenessége és az általa generált program hordozhatósága végett
 	a Linux alatti fejlesztés mellett döntöttem. 
-	Az OpenCL-t támogató hardverek legtöbbször CPU-k, GPU-k és az Intel MIC
-	\cite{mic} kártyái.
+	Az OpenCL-t támogató hardverek legtöbbször CPU-k, GPU-k és az Intel MIC \cite{mic} kártyái.
 	Ezekre való OpenCL kód fejlesztéséhez a gyártók biztosítanak Software Developement Kit-et (SDK).
 	Ezek telepítése szinte bármelyik Linux disztribúción sikerülhet a megfelelő követelmények előzetes telepítése után.
-	A Linux diszrók közül a CentOS-re \cite{centos} esett a választás, ami 
-	csupán a fejlesztőkörnyezet egyszerűbb telepítése végett történt így.
+	A Linux diszrók közül a CentOS-re \cite{centos} esett a választás, ami az Intel Xeon Phi-re való feljesztés miatt történt.
 
 \subsection*{Software Developement Kit-ek (SDK) telepítése} \label{sect:sdk}
 \subsubsection*{nVidia támogatás telepítése}
@@ -53,7 +51,7 @@ $ init 3
 $ init 5
 \end{lstlisting}
 	paranccsal áttérhetünk a grafikus felületre, ahol a megfelelő környezeti változókat kiegészíthetjük.
-	Legcélratörőbb, ha a \texttt{$\tilde{}$/.bashrc} fájlt módosítjuk és hozzáadjuk
+	Legcélratörőbb, ha a \texttt{/etc/enviroment} fájlt módosítjuk és hozzáadjuk
 	a következő sorokat:
 \begin{lstlisting}
 PATH=$PATH:$HOME/bin:/usr/local/cuda/bin
@@ -89,57 +87,80 @@ Option "Interactive" "boolean"
 	Ezután még szükséges a \texttt{LD\_LIBRARY\_PATH} beállítása.
 
 \subsubsection*{Eclipse – Integrated Developement Environment}
-	A fejlesztés és hibakeresés egy Integrated Developement Enviroment (IDE)
-	segítségével könnyebb.
-	Az open source Eclipse \cite{eclipse} fejlesztőkörnyezet a különböző pluginjaival épp
-	megfelelő erre a célra.
-	Például a C-nyelv fejlesztését segítő C/C++ Developement Tooling (CDT),
-	a verziókövetést menedzselő EGit és a hibakeresést támogató GDT.
+	A fejlesztés és hibakeresés egy Integrated Developement Enviroment (IDE) segítségével könnyebb.
+	Az open source Eclipse \cite{eclipse} fejlesztőkörnyezet a különböző pluginjaival épp megfelelő erre a célra.
+	Például a C-nyelv fejlesztését segítő C/C++ Developement Tooling (CDT), a verziókövetést menedzselő EGit és a hibakeresést támogató GDT.
 	A sok Eclipse változat közül az OpenCL fejlesztéshez legjobban az
 	Eclipse for Parallel Application Developers verzió illik, mivel a korábban említett pluginokat már eleve tartalmazza.
-
 
 \subsection*{Új (Hello World) projekt létrehozása}
 	Az OpenCL fejlesztését konyhanyelven bemutató OpenCL Programming Guide \cite{Munshi2011}
 	könyvben szereplő Hello World programot a következő linken lehet letölteni
-	\cite{hellow}.
-	A kód fordítása elött egy Eclipse projektet létrehozunk és a
-	fordításhoz szükséges beállításokat elvégezzük.
+	\url{https://code.google.com/p/opencl-book-samples/source/checkout}.
+	A kód fordítása elött egy Eclipse projektet létrehozunk és a fordításhoz szükséges beállításokat elvégezzük.
+	
+\subsubsection*{Empty C/C++ project létrehozása}
+	\begin{itemize}[noitemsep]
+		\item Új projekt létrehozása: File >> New >> Project,
+		\item C/C++ >> C++ project,
+		\item Project name: Hworld; Project type: Executable >> Empty Project; Toolchains: Linux GCC,
+		\item Finish.
+	\end{itemize}
+	
+% 	\begin{figure}[!h]
+% 	\centering
+% 		\includegraphics[width=67mm, keepaspectratio]{figures/eps/newC.eps}\hspace{1cm}
+% 		\includegraphics[width=67mm, keepaspectratio]{figures/eps/newP.eps}\\\vspace{5mm}
+% 		\includegraphics[width=67mm, keepaspectratio]{figures/eps/conf.eps}\hspace{1cm}
+% 	\caption{Új Eclipse projekt létrehozása} 
+% 	\label{fig:newproj}
+% 	\end{figure}
 
-\subsubsection*{Empty C project létrehozása}
-	Először egy üres C projektet hozunk létre, ami folyamatát a \ref{fig:newproj} 
-	ábrán látjuk. A korábban említettek szerint fordítónak a Linux GCC-t
-	állítjuk be.
-	\begin{figure}[!h]
-	\centering
-		\includegraphics[width=67mm, keepaspectratio]{figures/eps/newC.eps}\hspace{1cm}
-		\includegraphics[width=67mm, keepaspectratio]{figures/eps/newP.eps}\\\vspace{5mm}
-		\includegraphics[width=67mm, keepaspectratio]{figures/eps/conf.eps}\hspace{1cm}
-	\caption{Új Eclipse projekt létrehozása} 
-	\label{fig:newproj}
-	\end{figure}
+\subsection*{Fordítás beállítása}
+	A projekt-re kattinva ALT+ENTER után a fordító paramétereit (C/C++ Builder >> Settings) lehet beállítani.
+\subsubsection*{GCC C++ Compiler beállítása}
+	\begin{itemize}[noitemsep]
+		\item Dialect: ISO C++1y (-std=c++1y)
+		\item Includes: Következő elérési útvonalak hozzáadása
+			\begin{itemize}
+				\item /usr/local/boost-1.57.0/include
+				\item /usr/local/cuda/include
+			\end{itemize}
+	\end{itemize}
 
-\subsubsection*{Compiler beállítása}
-	A létrehozott projektre jobb gombbal kattíntva a tulajdonságára kattintva állíthatjuk be a fordítót a \ref{fig:compiler} ábrának
-	megfelelően.
-	A beállítások kiterjednek a GNU-C99 nyelv szerinti fordításra és a korábbi részben telepített SDK-ban található include mappa
-	beállítására.
-	\begin{figure}[!h]
-	\centering
-		\includegraphics[width=67mm, keepaspectratio]{figures/eps/lang.eps}\hspace{1cm}
-		\includegraphics[width=67mm, keepaspectratio]{figures/eps/include.eps}\\\vspace{5mm}
-		\includegraphics[width=67mm, keepaspectratio]{figures/eps/misc.eps}
-	\caption{Compiler beállításai} 
-	\label{fig:compiler}
-	\end{figure}
+% 	\begin{figure}[!h]
+% 	\centering
+% 		\includegraphics[width=67mm, keepaspectratio]{figures/eps/lang.eps}\hspace{1cm}
+% 		\includegraphics[width=67mm, keepaspectratio]{figures/eps/include.eps}\\\vspace{5mm}
+% 		\includegraphics[width=67mm, keepaspectratio]{figures/eps/misc.eps}
+% 	\caption{Compiler beállításai} 
+% 	\label{fig:compiler}
+% 	\end{figure}
 
-\subsubsection*{Linker beállítása}
-	A linkert a \ref{fig:linker} ábra szerint állítjuk be.
-	\begin{figure}[!h]
-	\centering
-		\includegraphics[width=67mm, keepaspectratio]{figures/eps/link.eps}\hspace{1cm}
-		\includegraphics[width=67mm, keepaspectratio]{figures/eps/link_misc.eps}\\\vspace{5mm}
-	\caption{Linker beállításai} 
-	\label{fig:linker}
-	\end{figure}
+\subsubsection*{GCC C++ Linker beállítása}
+	A Libraries-hez a következőket kell hozzáadni:
+	\begin{itemize}[noitemsep]
+		\item m
+		\item JAIFactory
+		\item GL
+		\item glut
+		\item OpenCL
+		\item boost\_filesystem
+		\item boost\_system
+		\item boost\_thread
+		\item boost\_program\_options
+	\end{itemize}
+	Továbbá a Library search path-hoz a következőket:
+	\begin{itemize}
+		\item /usr/local/cuda/lib64
+		\item /usr/local/boost-1.57.0/lib
+	\end{itemize}
+
+%	\begin{figure}[!h]
+%	\centering
+%		\includegraphics[width=67mm, keepaspectratio]{figures/eps/link.eps}\hspace{1cm}
+%		\includegraphics[width=67mm, keepaspectratio]{figures/eps/link_misc.eps}\\\vspace{5mm}
+%	\caption{Linker beállításai} 
+%	\label{fig:linker}
+%	\end{figure}
 
