@@ -2,24 +2,25 @@
 \chapter{Összehasonlítás}
 %----------------------------------------------------------------------------
 
-	A programot offline módbana különböző eszközökön futtatva a futási idejüket hasonlítottam össze.
+	A programot offline módban különböző eszközökön futtatva a futási idejüket hasonlítottam össze.
 	A program a kamera képe helyett korábban felvett 1000 darab \texttt{*.raw} nyers fájlokat dolgozott fel.
-	A \ref{table:results}. táblázatban látható futási eredmények csupán a kernelidőket tartalmazza.
-
+	A \ref{table:results}. táblázatban látható futási eredmények csupán a kernel időket tartalmazza.
+	
 	\begin{table}[H]
 	\footnotesize
 	\centering
 	
-	%\setlength{\extrarowheight}{8pt}
+	\setlength{\extrarowheight}{3pt}
 	\begin{tabular}{ l | r | r | r | r}
 		 & GTX 330m & Xeon E5-1620 & Xeon PHI & GTX 590\\ \hline
-		\texttt{MAX\_COMPUTE\_UNITS} & $6$ & $8$ & $224$ & $16$\\
+		\texttt{MAX\_COMPUTE\_UNITS} & 6 & 8 & 224 & 16\\
 		\texttt{MAX\_CLOCK\_FREQUENCY} & 1265 & 3000 & 1100 & 1225\\
-		\texttt{MAX\_WORK\_GROUP\_SIZE} & $512$ & $8192$ & $8192$ & $1024$\\ \hline\hline
-		\texttt{GLOBAL\_MEM\_SIZE} & $1Gbyte$ & $8Gbyte$ & $4.5Gbyte$ & $1.5Gbyte$\\
-		\texttt{MAX\_MEM\_ALLOC\_SIZE} & $\sim 0.25Gbyte$ & $\sim 8Gbyte$ & $\sim 1.5Gbyte$ & $\sim 0.4Gbyte$\\
-		\texttt{LOCAL\_MEM\_SIZE} & $16 Kbyte$ & $32 Kbyte$ & $32 Kbyte$ & $48 Kbyte$\\
-		Futási idő $T$ & $114.1$~s & $202.0$~s & $52.7$~s & $7.74$~s
+		\texttt{MAX\_WORK\_GROUP\_SIZE} & 512 & 8192 & 8192 & 1024\\ \hline\hline
+		\texttt{GLOBAL\_MEM\_SIZE} & 1\,Gbyte & 8\,Gbyte & 4.5\,Gbyte & 1.5\,Gbyte\\
+		\texttt{MAX\_MEM\_ALLOC\_SIZE} & $\sim$ 0.25\,Gbyte & $\sim$ 8\,Gbyte & $\sim$ 1.5\,Gbyte & $\sim$ 0.4\,Gbyte\\
+		\texttt{LOCAL\_MEM\_SIZE} & 16\,Kbyte & 32\,Kbyte & 32\,Kbyte & 48\,Kbyte\\
+		\texttt{LOCAL\_MEM\_TYPE} & Local & Global & Global & Local\\\hline
+		Futási idő $(T)$ & 114.1~s & 202.0~s & 52.7~s & 7.74~s
 	\end{tabular}
 	
 	\caption[Különböző eszközök futási idejének összehasonlítása]{Az eszközök erőforrásainak és a program futási idejének összehasonlítása.}
@@ -30,32 +31,48 @@
 	\begin{figure}[!h]
 	\begin{center}
 	  \includegraphics[width=0.9\columnwidth]{figures/eps/runtime.eps}
-	  \caption{Egy képre jutó átlagos futási idők [ms]}
+	  \caption{1000 kép feldolgozásának futási ideje [s]. A kissebb érték a kedvezőbb.}
 	  \label{fig:runtime}
 	\end{center}
 	\end{figure}
 	
-	Az eszközök architekturájából fakadó különbségek számszerűsítése végett a futási időt egy compute-unitra és egy órajelre
-	fajlagosan számítom.
+	Az eszközök architekturájából fakadó különbségek számszerűsítése végett a futási időt egy compute-unitra és egy
+	órajelre fajlagosan számítom:
 	\begin{equation}
-	T_{fajl} = \frac{T \cdot N_{CU}}{f_{dev}}
+	T_{\rm fajl} = T \cdot N_{\rm CU} \cdot f_{\rm dev}
 	\end{equation}
-	ahol $T$ a futási idő $N_{CU}$ az eszköz compute-unit száma és $f_{dev}$ az eszköz órajelének frekvenciája.
-	
+	ahol $T$ a futási idő $N_{\rm CU}$ az eszköz compute-unit száma és $f_{\rm dev}$ az eszköz órajelének frekvenciája.
+        
 	\begin{table}[H]
 	\footnotesize
 	\centering
 	
-	%\setlength{\extrarowheight}{8pt}
+	\setlength{\extrarowheight}{3pt}
 	\begin{tabular}{ l | r | r | r | r}
 		 & GTX 330m & Xeon E5-1620 & Xeon PHI & GTX 590\\ \hline
-		\texttt{MAX\_COMPUTE\_UNITS} & $6$ & $8$ & $224$ & $16$\\
+		\texttt{MAX\_COMPUTE\_UNITS} & 6 & 8 & 224 & 16\\
 		\texttt{MAX\_CLOCK\_FREQUENCY} & 1265 & 3000 & 1100 & 1225\\\hline\hline
-		Fajlagos futási idő $T_{fajl}$ & $541$ & $539$ & $10750$ & $101$
+		Futási idő $(T)$ & 114.1~s & 202.0~s & 52.7~s & 7.74~s\\
+		Fajlagos futási idő $(T_{\rm fajl})$ & 0.86$\times 10^6$ & 4.85$\times 10^6$ & 13.00$\times 10^6$ & 0.15$\times 10^6$
 	\end{tabular}
 	
 	\caption{Eszközök fajlagos futási idejének összehasonlítása}
-	\label{table:results}
+	\label{table:results_f}
 	\end{table}	
 	
+	%\usepackage{graphics} is needed for \includegraphics
+	\begin{figure}[!h]
+	\begin{center}
+	  \includegraphics[width=0.9\columnwidth]{figures/eps/runtime_f.eps}
+	  \caption{1000 kép feldolgozásának fajlagos futási ideje. A kissebb érték a kedvezőbb.}
+	  \label{fig:runtime_f}
+	\end{center}
+	\end{figure}
+	
+	A program OpenCL-ben készült, így videokártyán és processzoron is tud futni.
+	Ezt a GPU-k lokális memóriájának és annak programozott ``cache" működésének pozitív hatásának tudom be.
+	
+	A \ref{fig:runtime}.ábrát és a \ref{fig:runtime_f}. ábrát összevetve megfigyelhető, hogy a processzorok/processzorkártyák bár
+	gyorsabban futtatják a programot, viszont ezt nagy fajlagos idővel teszik. Konklúzióként elmondható, hogy a program
+	algoritmusához az architektúrájuk nem illeszkedik.
 	

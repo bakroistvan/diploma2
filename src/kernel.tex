@@ -22,7 +22,7 @@ size_t gN	= get_num_groups(0);
 
 \noindent Ezután a kernelek különböző feladatokat látnak el, amik bemutatása következik. 
 \section{Medián szűrés}
-	A szűrő feladata a részecskék eliminálása illetve a háttér lehető legalakhűbb átengedése, amjd a differenciális kép létrehozása.
+	A szűrő feladata a részecskék eliminálása illetve a háttér lehető legalakhűbb átengedése, majd a differenciális kép létrehozása.
 	
 \noindent A kernel függvényének fejléce a következő:
 \begin{lstlisting}[language=C++]
@@ -48,18 +48,16 @@ __kernel void median(	uint		N,		// 0
 \noindent A kernel program lépései a következők:
 	\begin{enumerate*}
 		\item A work-item globális és lokális indexének meghatározása,
-		\item A kép a szűrő ablakjának megfelelő (\texttt{nh\_N $\times$ nh\_N}) részének a globális (\texttt{im}) bufferből a lokális
+		\item A kép a szűrő ablakának megfelelő (\texttt{nh\_N $\times$ nh\_N}) részének a globális (\texttt{im}) bufferből a lokális
 		\texttt{Lwork} bufferbe való másolása,
 		\item Lokális bufferben kiválasztásos részleges sorbarendezés. Részleges alatt a képrészlet feléig történő rendezést értem,
-		\item Medián megállípítása és a kimeneti \texttt{oim} bufferbe írása.
+		\item Medián megállapítása és a kimeneti \texttt{oim} bufferbe írása.
 	\end{enumerate*}
 
-\cbstart
-\noindent Továbbá a kimenet állítása során megvizsgálom, hogy a szűrő kimeneti értéke az eredetinél alacsonyabb vagy magasabb. Ha magasabb
+\noindent A kimenet előállítása során megvizsgálom, hogy a szűrő kimeneti értéke az eredetinél alacsonyabb vagy magasabb. Ha magasabb
 	akkor esélyes, hogy az adott indexű pont környezetében nem volt részecske. Ennek megfelelően a szűrt értéket
 	eldobom és az eredeti értéket változatlanul írom a kimeneti bufferbe. Ez a medián szűrő nemlineárisát csökkenti, hiszen a
 	részecskéktől (pozitív kiugrásoktól) mentes területet alakhűbben (változás mentesen) engedi át.
-\cbend
 
 
 \section{Átlagolás}
@@ -79,9 +77,9 @@ __kernel void average(	uint		N,		// 0
 \noindent A kernel program lépései a következők:
 	\begin{enumerate*}
 		\item A work-item globális és lokális indexének meghatározása,
-		\item A képet a work-item-ek számának megfelelő részre bontom,
+		\item A képet a work-item-ek számának megfelelő részre bontása,
 		\item A képrészletek a globális \texttt{Oim} bufferből a lokális \texttt{Lwork} bufferbe való másolása,
-		\item Az átlag számításához ezek összegét számítom és a kimeneti \texttt{Oavg} bufferbe írom.
+		\item Az átlag számításához ezek összegének számítása és a kimeneti \texttt{Oavg} bufferbe írása.
 	\end{enumerate*}
 	A részösszegekből a host oldalon történik az átlag számítása.
 
@@ -102,7 +100,7 @@ __kernel void detect(	uint		N,		// 0
 \noindent A kernel program lépései a következők:
 	\begin{enumerate*}
 		\item A work-item globális és lokális indexének meghatározása,
-		\item Az adaptív külszöb számítása és ennek megfelelő detektálás,
+		\item Az adaptív küszöb számítása és ennek megfelelő detektálás,
 		\item Kiterjesztés és a flood-fill algoritmussal a ROI meghatározása:
 		\begin{enumerate*}
 			\item Megjelölt pixel keresése,
@@ -112,5 +110,27 @@ __kernel void detect(	uint		N,		// 0
 		\item ROI-n belüli pontokból a részecske pozíciójának számítása momentum módszerrel,
 		\item Eredmény mentése a globális memóriába.
 	\end{enumerate*}
+	
+\section{Eloszlás számítása}
+\noindent A kernel függvényének fejléce a következő:
+\begin{lstlisting}[language=C++]
+__kernel void dbution(	uint		N,		// 0
+					uint		file_N,	// 1
+					uint		res_pix,	// 2
+					float	q,		// 3
+		__global		uchar	*OUT,	// 4 :: [N][file_N][file_N]
+		__global		float	*DB,		// 5 :: [file_N][file_N]
+		__local		uchar	*Lwork	// 6 :: [xN][yN]
+)
+\end{lstlisting}
+
+\noindent A kernel program lépései a következők:
+	\begin{enumerate*}
+		\item A work-item globális és lokális indexének meghatározása,
+		\item A kép a \texttt{res\_pix}-nek megfelelő részre bontása,
+		\item A megjelölt pixelek a globális \texttt{OUT} bufferből a lokális \texttt{Lwork} bufferbe való másolása,
+		\item Pixelenkénti \texttt{q} paraméterű exponenciális mozgó átlagolás számítása és eredményének a \texttt{DB} bufferbe írása. 
+	\end{enumerate*}
+	
 	
 	

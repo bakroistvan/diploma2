@@ -5,13 +5,13 @@
 \section{OpenCL architektúrája}
 	Az Open Computing Language (OpenCL) keretrendszer \cite{opencl}
 	általános modellt, magas szintű programozási interfészt és hardware
-	absztrakciót nyújt a fejlesztőknek adat- vagy feladat párhuzamos számítások gyorsítására különböző
+	absztrakciót nyújt a fejlesztőknek adat-, vagy feladat párhuzamos számítások gyorsítására különböző
 	számítóegységen (CPU, GPU, FPGA, DSP, \ldots).
-	A hárdvergyártók implementálják az OpenCL szabványt, ami által saját platformot
+	A hardvergyártók implementálják az OpenCL szabványt, ami által saját platformot
 	hoznak létre. Egy ilyen platformon belüli eszközök alatt főként GPU-kat, de
 	CPU-kat és FPGA-t \ldots is értünk.
 	OpenCL keretrendszerben történő programozás során két programot kell írnunk.
-	Az egyik a kernel, ami az eszközön futatott szálra fog leképeződni.
+	Az egyik a kernel, ami az eszközön futtatott szálra fog leképeződni.
 	A másik a gazda processzoron (host-on) futó host-program, ami elvégzi az I/O műveleteket,
 	a probléma összeállítását, a memória allokálást, az argumentumok beállítását
 	illetve a kernel meghívását az eszközön.
@@ -66,7 +66,7 @@
 		a processzor-maghoz.
 		\item \emph{Mikor?} Mivel a memória művelet alatt a futtatott kernel nem
 		dolgozik, így átadja a helyét egy másiknak. (Ez Direct Memory Access (DMA)
-		blokk létezése allatt igaz). Ennek a megfelelő szinkronizációjával nagyobb
+		blokk létezése alatt igaz). Ennek a megfelelő szinkronizációjával nagyobb
 		kihasználtság érhető el (load balance).
 	\end{itemize}
 	
@@ -74,7 +74,7 @@
 \section{OpenCL programozási modell}
 	
 	A programozási modell középpontjában a kontextus áll, ami az OpenCL
-	osztálydiagrammján (\ref{fig:class}. ábra) figyelhető meg.
+	osztálydiagramján (\ref{fig:class}. ábra) figyelhető meg.
 	A futtatáshoz szükséges, hogy a kontextushoz platformot, majd azon belül
 	eszközt, az eszközhöz programot (kernelt) és memóriát rendeljünk.
 	\begin{figure}[!ht]
@@ -93,12 +93,14 @@
 	
 	Adat parallel módon (\ref{fig:data_parallel} ábra) a feldolgozandó adat egy
 	részéhez rendelünk egy feldolgozó egységet. Fontos figyelembe venni az eszköz korlátos
-	számú feldolgozó egységének számát. Ha nem elég a feldolgozó egysége akkor a
-	feladat megfelelő partícionálásával lehetséges kordában tartani a szükséges
-	erőforrás számát.
+	számú feldolgozó egységének számát. Ha nem elég a 
+        rendelkezésre álló feldolgozó egység, akkor a
+	feladat megfelelő particionálásával lehetséges az aktuális
+        konfiguráció erőforrásaihoz illeszkedni.
 	
 	Taszk parallel módot (\ref{fig:task_parallel} ábra) olyan esetben célszerű
-	használna, ha a bemenet dinamikus mérete a futási időben rendkívül változik
+	használna, ha a bemenet dinamikus mérete a futási időben
+        rendkívül változik
 	illetve a végrehajtandó feladat lazán függenek össze.
 	
 	\begin{figure*}[!ht]
@@ -119,8 +121,9 @@
 	work-item virtuálisan osztozik rajta.
 	Továbbá ezen work-item-eket work-group-okba rendezzük.
 	
-	A work-itemeket jelen pillanatban az OpenCL specifikációja \cite{opencl} szerint 3 dimenziós
-	work-group-ba tudjuk rendezni. A követekző \ref{fig:ndrange}. ábrán egy 2D-s példát láthatunk egy work-item indexének a globális
+	A work-itemeket jelen pillanatban az OpenCL specifikációja
+        \cite{opencl} szerint max. 3 dimenziós
+	work-group-ba tudjuk rendezni. A következő \ref{fig:ndrange}. ábrán egy 2D-s példát láthatunk egy work-item indexének a globális
 	és lokális megfelelőjére.
 	
 	\begin{figure}[!h]
@@ -131,7 +134,7 @@
 		\label{fig:ndrange} 
 	\end{figure}
 
-	A work-group-okba rendezés a lokális memória jogusultsága miatt érdekes.
+	A work-group-okba rendezés a lokális memória jogosultsága miatt érdekes.
 	Konkrétan az egy work-group-ba tartozó összes work-item azonos lokális memórián
 	osztozik.
 	Ennek a következménye az, hogy adat parallel módú feldolgozás esetén
@@ -142,11 +145,11 @@
 	hozzáférési ideje relatíve nagy így ezek használatát lehetőleg el kell kerülni
 	és a programozónak kell ``cachelni" a lokális memóriába.
 	
-	Mivel a work-item-ek konkurrensen hajtódnak végre, így az általuk közösen elérhető memóriákra
+	Mivel a work-item-ek konkurensen hajtódnak végre, így az általuk közösen elérhető memóriákra
 	(globális, lokális) nézve versenyhelyzetben vannak.
 	Az OpenCL ezt a problémát a laza memóriamodell használatával oldja meg. Az alkalmazott
 	szinkronizáció egy korlátot tesz a programban, amit csak akkor léphet át, ha az összes többi
-	work-item az azonos work-group-ban ezta a korlátot már elérte. Erre a \texttt{barrier(FLAG)}
+	work-item az azonos work-group-ban ezt a korlátot már elérte. Erre a \texttt{barrier(FLAG)}
 	függvényhívás szolgál. Fontos megjegyezni, hogy ez a szinkronizáció csak egy adott
 	work-group-on belül történik, a work-group-ok közötti szinkronizációra nincs lehetőség. 
 	
@@ -159,10 +162,10 @@
 \section{Futási környezet bemutatása}
 	A következő eszközök teljesítményét vizsgálom:
 	\begin{itemize}
-		\item A laptopomban található \textbf{nVidia GTC 330m} notebook-videókártya,
+		\item A laptopomban található \textbf{nVidia GTC 330m} notebook-videokártya,
 		\item Asztali PC-ben található \textbf{Intel Xeon E5-1620} processzor,
  		\item Asztali PC-ben található \textbf{Intel Xeon Phi} co-processzor kártya \cite{phi,mic},
- 		\item Asztali PC-ben található  \textbf{nVidia GTX 590} videókártya.
+ 		\item Asztali PC-ben található  \textbf{nVidia GTX 590} videokártya.
 	\end{itemize}
 	Ezen eszközök legjelentősebb paraméterei a \ref{table:envs} táblázat tartalmazza.
 	
@@ -177,18 +180,21 @@
 	% than the plain LaTeX2e tabular which is used here.
 	\begin{tabular}{ l | r | r | r | r}
 		 & nVidia GTX 330m & Xeon E5-1620 & Xeon PHI & nVidia GTX 590\\ \hline
-		\texttt{MAX\_COMPUTE\_UNITS} & $6$ & $8$ & $224$ & $16$\\
+		\texttt{MAX\_COMPUTE\_UNITS} & 6 & 8 & 224 & 16\\
 		\texttt{MAX\_CLOCK\_FREQUENCY} & 1265 & 3000 & 1100 & 1225\\
-		\texttt{MAX\_WORK\_GROUP\_SIZE} & $512$ & $8192$ & $8192$ & $1024$\\ \hline\hline
-		\texttt{GLOBAL\_MEM\_SIZE} & $1Gbyte$ & $8Gbyte$ & $4.5Gbyte$ & $1.5Gbyte$\\
-		\texttt{MAX\_MEM\_ALLOC\_SIZE} & $\sim 0.25Gbyte$ & $\sim 8Gbyte$ & $\sim 1.5Gbyte$ & $\sim 0.4Gbyte$\\
-		\texttt{LOCAL\_MEM\_SIZE} & $16 Kbyte$ & $32 Kbyte$ & $32 Kbyte$ & $48 Kbyte$\\
+		\texttt{MAX\_WORK\_GROUP\_SIZE} & 512 & 8192 & 8192 & 1024\\ \hline\hline
+		\texttt{GLOBAL\_MEM\_SIZE} & 1\,Gbyte & 8\,Gbyte & 4.5\,Gbyte & 1.5\,Gbyte\\
+		\texttt{MAX\_MEM\_ALLOC\_SIZE} & $\sim$ 0.25\,Gbyte & $\sim$ 8\,Gbyte & $\sim$ 1.5\,Gbyte & $\sim$ 0.4\,Gbyte\\
+		\texttt{LOCAL\_MEM\_SIZE} & 16\,Kbyte & 32\,Kbyte* & 32\,Kbyte* & 48\,Kbyte\\
+		\texttt{LOCAL\_MEM\_TYPE} & Local & Global & Global & Local\\
 	\end{tabular}
 	
 	\caption{Használandó eszközök összehasonlítása}
 	\label{table:envs}
 	\end{table}
 	
-	Az összehasonlíthatóság végett a legkissebb memóriájú eszközre fogom a problémát skálázni. Tehát maximálisan $32 Kbyte$ lokális
+	Fontos kiemelni, hogy az Intel eszközeinek lokális memóriái (*) valójában a globális memóriából mappelt memóriaterület.
+	
+	Az összehasonlíthatóság végett a legkisebb memóriájú eszközre fogom a problémát skálázni. Tehát maximálisan 16\,Kbyte lokális
 	memóriát fogok használni. A többi eszköz memóriája nagyobb, így a kód mindegyiken tud futni.
 	

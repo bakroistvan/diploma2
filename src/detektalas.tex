@@ -3,14 +3,16 @@
 %----------------------------------------------------------------------------
 
 \section{Detektálási módszerek}
-	A korábban látható \ref{fig:captures}. ábrán látható ábrákhoz hasonló képekről kell a részecskéket felismerni és
-	azoknak a koordinátáit exportálni.
-	Erre több lehetőség adódik, amit a \cite{Feng2007} részletez.
+	A korábban bemutatott \ref{fig:captures}. ábrán látható ábrákhoz hasonló képekről kell a részecskéket felismerni és
+	azoknak a koordinátáit meghatározni.
+	Erre több lehetőség adódik, amit a pl. \cite{Feng2007} részletez.
 	A detektáló módszereket a számítás igényeiknek növekvő sorrendjében mutatom be.
+
 \subsection{Küszöb módszer}
-	Legkézenfekvőbb módszer, hogy a kép pixeleinek világosságát összehasonlítjuk egy küszöb értékkel
+	Legkézenfekvőbb módszer, hogy a kép pixeljeinek világosságát összehasonlítjuk egy küszöb értékkel
 	és ha az nagyobb ennél, akkor ezeket megjelöljük, mivel ott részecskét feltételezünk. 
-	A módszer egyenletes háttér-világosság esetén jól működik és extra gyorsan számítható.
+	A módszer egyenletes háttér-világosság esetén jól működik és gyorsan végrehajtható.
+
 \subsection{Küszöb módszer szűréssel}
 	A háttér világossága a \ref{fig:allo}. ábrán jól láthatóan nem egyenletes.
 	A korábban említett egyszerű küszöb módszer itt nem alkalmazható, mivel a világos és sötét
@@ -18,10 +20,9 @@
 	A megoldása erre, mint megannyi villamosmérnöki mérési feladatra, hogy a jel helyett a
 	differenciális jelet mérjük/számítjuk. Jelen esetben ez azt jelenti, hogy először előállítjuk a
 	részecske nélküli háttérképét, majd a méréssel kapott képből kivonva ezt a differenciális képet megkapjuk.
-	A differenciális képen a részecskéket a korábban említett küszöb módszerrel lehet detektálni a
-	részecskéket.
+	A differenciális képen a részecskéket a korábban említett küszöb módszerrel lehet detektálni.
 	
-	Ehhez csupán a mérési képből kell szűréssel származtatni a háttérképet azaz eliminálni a részecskéket.
+	Ehhez csupán a mérési képből kell szűréssel származtatni a háttérképet, azaz eliminálni a részecskéket.
 	A \cite{Feng2007,Oxtoby2010} cikkekben és általában is erre véges Gauss szűrőt használnak, ami egy
 	lineáris véges impulzusválaszú (FIR) aluláteresztő szűrő.
 	A szűrés egy adott pixel környezetének súlyozott átlagolását jelenti.
@@ -30,16 +31,17 @@
 	
 	Mivel a részecskék mérete a képen véges és kis szórású, így a korábban
 	említett FIR Gauss szűrő aránylag jól tudja a részecskéket eliminálni.
-	Viszont a mérési képek $100\ \mathrm{FPS}$ sebességgel és $1024\times1024$ mérettel érkeznek be.
-	Ez $100\ \mathrm{MByte/s}$ adatfolyamot jelent. Ahhoz, hogy ezt közel real-time feltudjuk dolgozni
+	Viszont a mérési képek 100~FPS sebességgel és $1024\times1024$ mérettel érkeznek be.
+	Ez 100~MByte/s adatfolyamot jelent. Ahhoz, hogy ezt közel
+        valós időben fel tudjuk dolgozni
 	a Gauss szűrés nem járható út. Hatékonyabb szűrőre van szükségünk! A megoldást a medián szűrőben látom,
 	ami egy nemlineáris, de véges ``impulzusválaszú'' szűrő.
 	A szűrő az adott pixel környezetének mediánjának számítását jelenti.
 	A nemlinearitás jelen esetben nem okoz gondot, mivel csak detektálásra használjuk (a pozíció
-	kinyerése az eredeti kép alapján készül, de ez később részletezve lesz.)
+	kinyerése az eredeti kép alapján készül, de ez később részletezve lesz).
 	
 	A Gauss szűrő $N = n\times n$ környezet (ablak) esetén $N$ szorzást és $N-1$ összeadást jelent. A medián szűrő $N = n\times n$
-	ablak esetén: bubborék rendezés során $O(N^2)$, javított bubborék rendezés során $O(N^2 / 2)$, quicksort esetén $O(N\log N)$
+	ablak esetén: buborék rendezés során $O(N^2)$, javított bubborék rendezés során $O(N^2 / 2)$, quicksort esetén $O(N\log N)$
 	illetve kiválasztásos rendezés esetén $O(N\log N)$ összehasonlítást és cserét.
 	Az összehasonlítás és a csere nagyságrendekkel gyorsabban végrehajtható, mint a szorzás és
 	összeadás. A kedvező lépésszám és helybeli rendezés lehetősége végett a kiválasztásos rendezést választottam.
@@ -67,14 +69,14 @@
 	ha a Photoshop-ból ismert Curves tool-hoz hasonlóval módosítottunk volna rajta. (A tool a képre egy nemlineáris
 	függvénnyel hattat.)}
 	
-	A \ref{fig:alg}. ábrán látható a detektálási algoritmus működése közben.
+	A \ref{fig:alg}. ábrán látható a detektálási algoritmus működés közben.
 	A \ref{fig:alg1}. ábrán a mérési kép ($P$) látható kitöltött görbével, ami az \ref{fig:allo}. ábrán
 	látható mérési kép $x=40$ sora.
 	Piros görbével látható a medián szűrt jelet ($\mhat{M}P$), amin jól érzékelhető a hirtelen
 	változások eliminációja.
 	A következő \ref{fig:alg2}. ábrán az eredeti és a szűrt különbsége azaz a differenciális kép
 	($P - \mhat{M}P$) látható a kék görbével. A zöld görbe a \eqref{treshold} szerinti
-	döntési köszöb.
+	döntési küszöb.
 	Az utolsó \ref{fig:alg3}. ábrán a detektált részecskék figyelhetőek meg.
 	
 	\begin{figure}[!h]
@@ -99,11 +101,11 @@
 	\end{figure}
 	
 \section{A részecskék pozíciójának számítása}
-	Kis felbontású kamera illetve nagyon kis porrészecskék esetén előállhat, hogy a részecskék csupán egy
+	Kis felbontású kamera, illetve nagyon kis porrészecskék esetén előállhat, hogy a részecskék csupán egy
 	pixelnyi területet foglalnak el a képen. Detektálás szempontjából ez kedvező viszont a pozíciómérés
 	szempontjából nem, mivel ilyenkor a felbontásunk 1 pixelnyi. Ezen javítani a dithereléssel a
-	következőképpen lehet: picit elállítjuk az élességet úgy, hogy egy részecske több pixel nagyságú
-	``maszat'' legyen, majd a korábban részletezett detektálást elvégezzük.
+	következőképpen lehet: picit elállítjuk az optika élességet úgy, hogy egy részecske képe egy több pixel nagyságú
+	folt legyen, majd a korábban részletezett detektálást elvégezzük.
 	\textit{\textbf{Másképpen megfogalmazva a részecske adott szélességű négyszögimpulzusát az élesség-el-állítással Gauß görbéhez
 	hasonló jellel konvolváljuk/maszatoljuk el.}}
 	
@@ -111,16 +113,16 @@
 	több pixelt fog megjelölni. A pozíció megtalálásához csoportosítani kell a megjelölt pixeleket.
 	Az egy részecskéhez tartozó pixel-csoportot egy téglalap fogja határolni, amit region of
 	interest-el (ROI) szokás illetni. Azonban a részecske detektálása után amorf formájú megjelölt
-	pixeleink lesznek. Ezeket a könnyebb csoportosítás végett kiterjesztem pár pixellel az így kapott
+	pixeljeink lesznek. Ezeket a könnyebb csoportosítás végett kiterjesztem pár pixellel az így kapott
 	pixeleket flood-fill algorimussal egybefüggővé teszem és ennek eredményeképp megkapom a ROI határoló
-	koordiánáit, amit a következő két módszer felhasznál a részecske pozíciójának számítása során.
+	koordinátákat, amit a következő két módszer felhasznál a részecske pozíciójának számítása során.
 	\subsubsection*{Maximum keresés}
 	Legegyszerűbb eset, ha a ROI-n belül az eredeti pixelek közül a legvilágosabbat veszem a
 	részecske pozíciójaként.
 	\subsubsection*{Szubpixel felbontás momentum módszerrel}
 	Szofisztikáltabb, ha a ROI-n belül az eredeti pixelek világosságát, mint tömegpont tömegének veszem
 	és a ROI-által határolt test súlypontját megkeresem. A módszerre kritikusan hat az előbb említett
-	kiterjesztés mértéke. Ha túl nagy a kiterjesztés, akkor azzal hibát viszek be pozicíó mérésébe,
+	kiterjesztés mértéke. Ha túl nagy a kiterjesztés, akkor azzal hibát viszek be a pozícíó mérésébe,
 	míg ha túl kicsi akkor meg egy részecskének akár két képe/pozíciója keletkezhet. Továbbá nem érünk el nagyobb pontosságot a
 	maximumkereséshez képest.
 	\textit{\textbf{Másképpen megfogalmazva a korábbi konvolúcióval kapott függvényt (életlen kép) dekonvolúciós metódusokkal
@@ -128,7 +130,7 @@
 	Lehetne Gauß görbével dekonvolválni viszont a hozzá tartozó paraméter értékének számítása/mérése túl nagy számításigényű, ezért
 	döntöttem a momentum módszer mellett.}}
 	
-	Jelen esetben hatékony is, mivel a részecskék és az életlen képül is forgásszimmetrikus, így az életlen képük tömegközéppontja
+	Jelen esetben ez hatékony eljárás, mivel a részecskék és az enyhén defókuszált képük is forgásszimmetrikus, így az életlen képük tömegközéppontja
 	meg fog egyezni a részecske pozíciójával.
 	
 	\noindent Az algoritmus hatékonyságát különböző $\delta$ érték mellett a következő \ref{fig:roi}. ábrán látható.
@@ -158,7 +160,7 @@
 	
 	\noindent
 	\begin{center}
-	Az algoritmus jól párhuzamosítható, ami a nagyteljesítményű multiprocesszoros
+	Az algoritmus jól párhuzamosítható, ami a nagy teljesítményű multiprocesszoros
 	környezetben kedvező futási időt eredményezhet. A párhuzamos program létrehozásának segítségére az 
 	OpenCL keretrendszert választottam, aminek a bemutatása következik.
 	\end{center}

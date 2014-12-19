@@ -1,23 +1,25 @@
 %----------------------------------------------------------------------------
 \chapter{Összegzés}
 %----------------------------------------------------------------------------
-	Dolgozatomban bemutattam a porosplazma kísérletek apparátusát. A kísérlet során a kristályrácsba
-	rendeződő részecskékről egy nagysebességű kamerával fényképek készülnek. A dolgozatomban ezen
-	képeket, kellett feldolgoznom és a részecskék pozícióját detektálnom, amely pozíciók a fizikai modell/szimuláció validálására
-	szolgálnak.
-	
+	Dolgozatomban bemutattam a poros plazma kísérletek apparátusát. A kísérlet során a kristályrácsba
+	rendeződő részecskékről egy nagysebességű kamerával felvételek készülnek. A diplomamunkám során ezen
+	képeket kellett feldolgoznom és a részecskék pozícióját detektálnom, ami fontos információkat jelent a rendszer paramétereinek
+	optimalizálása során.
+
 	Ismertettem a részecske detektálásának módszerét szűrés és adaptív döntési küszöb használatával.
 	Az elterjedt FIR Gauss szűrő helyett a hatékonyabb medián szűrőt javasoltam és alkalmaztam. A
-	pozíció számítására a momentum módszert implementáltam, ami nagyobb számítási energiát igényel, de
-	szubpixeles felbontást tudtam vele elérni. Konstatáltam, hogy az így kialakult program masszívan párhuzamosítható.
+	pozíció számítására a momentum módszert implementáltam, ami nagyobb számítási kapacitást igényel, de
+	szubpixeles felbontást tudtam vele elérni. Megállapítottam, hogy az így kialakult program masszívan párhuzamosítható.
 	
 	Ezután áttekintettem az OpenCL keretrendszert, amit a párhuzamos program megírásának segítségére
 	használtam. Az itt ismertetett megállapításokat figyelembe véve állítottam össze a párhuzamos
-	program lépéseit, amit részleteztem is. Kiemelném az OpenCL keretrendszer használatának előnyét, ami a platform és párhumazos
+	program lépéseit, amit részleteztem is. Kiemelném az OpenCL keretrendszer használatának előnyét, ami a platform és párhuzamos
 	számításra képes eszköztől való függetlenség.
 	
-	A program első verziója korábban készült és letárolt fájlok feldolgozását végezte és eredményét fájlba mentette el. Míg a végső
-	program a kamera képét dolgozta online dolgozza fel és eredményét OpenGL használatával meg is jeleníti.
+	A program jelen változtában alkalmas arra, hogy a kísérletek
+        beállítása során értékes, valós idejű visszajelzést adjon a
+        kísérletezőnek. Ezáltal az elvégzendő kísérletek hibaszázaléka
+        csökkenthető, a kísérleti paraméterek időben optimalizálhatók.
 	
 	\section*{További fejlesztési lehetőségek}
 	\begin{itemize}
