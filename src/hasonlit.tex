@@ -14,7 +14,7 @@
 	\begin{tabular}{ l | r | r | r | r}
 		 & GTX 330m & Xeon E5-1620 & Xeon PHI & GTX 590\\ \hline
 		\texttt{MAX\_COMPUTE\_UNITS} & 6 & 8 & 224 & 16\\
-		\texttt{MAX\_CLOCK\_FREQUENCY} & 1265 & 3000 & 1100 & 1225\\
+		\texttt{MAX\_CLOCK\_FREQUENCY} & 1265\,MHz & 3000\,MHz & 1100\,MHz & 1225\,MHz\\
 		\texttt{MAX\_WORK\_GROUP\_SIZE} & 512 & 8192 & 8192 & 1024\\ \hline\hline
 		\texttt{GLOBAL\_MEM\_SIZE} & 1\,Gbyte & 8\,Gbyte & 4.5\,Gbyte & 1.5\,Gbyte\\
 		\texttt{MAX\_MEM\_ALLOC\_SIZE} & $\sim$ 0.25\,Gbyte & $\sim$ 8\,Gbyte & $\sim$ 1.5\,Gbyte & $\sim$ 0.4\,Gbyte\\
@@ -31,7 +31,7 @@
 	\begin{figure}[!h]
 	\begin{center}
 	  \includegraphics[width=0.9\columnwidth]{figures/eps/runtime.eps}
-	  \caption{1000 kép feldolgozásának futási ideje [s]. A kissebb érték a kedvezőbb.}
+	  \caption[1000 kép feldolgozásának futási ideje [s].]{1000 kép feldolgozásának futási ideje [s]. A kissebb érték a kedvezőbb.}
 	  \label{fig:runtime}
 	\end{center}
 	\end{figure}
@@ -55,12 +55,10 @@
 	\begin{tabular}{ l | r | r | r | r}
 		 & GTX 330m & Xeon E5-1620 & Xeon PHI & GTX 590\\ \hline
 		\texttt{MAX\_COMPUTE\_UNITS} & 6 & 8 & 224 & 16\\
-		\texttt{MAX\_CLOCK\_FREQUENCY} & 1265 & 3000 & 1100 & 1225\\\hline\hline
+		\texttt{MAX\_CLOCK\_FREQUENCY} & 1265\,MHz & 3000\,MHz & 1100\,MHz & 1225\,MHz\\\hline\hline
 		Futási idő $(T)$ & 114.1~s & 202.0~s & 52.7~s & 7.74~s\\
 		Fajlagos futási idő $(T_{\rm fajl})$ & 0.86$\times 10^{12}$ & 4.85$\times 10^{12}$ & 13.00$\times 10^{12}$ & 0.15$\times 10^{12}$
 	\end{tabular}
-\todo{a szorzásnál kimaradt a Mega a frekvenciáknál. A következő
-  ábrában is javítsd.}
 	
 	\caption{Eszközök fajlagos futási idejének összehasonlítása}
 	\label{table:results_f}
@@ -70,7 +68,8 @@
 	\begin{figure}[!h]
 	\begin{center}
 	  \includegraphics[width=0.9\columnwidth]{figures/eps/runtime_f.eps}
-	  \caption{1000 kép feldolgozásának fajlagos futási ideje. A kissebb érték a kedvezőbb.}
+	  \caption[1000 kép feldolgozásának fajlagos futási ideje.]{1000 kép feldolgozásának fajlagos futási ideje. A kissebb érték a
+	  kedvezőbb.}
 	  \label{fig:runtime_f}
 	\end{center}
 	\end{figure}
@@ -78,7 +77,7 @@
 	A program OpenCL-ben készült, így videokártyán és processzoron is tud futni.
 	Ezt a GPU-k lokális memóriájának és annak programozott ``cache'' működésének pozitív hatásának tudom be.
 	
-	A \ref{fig:runtime}.ábrát és a \ref{fig:runtime_f}. ábrát összevetve megfigyelhető, hogy a processzorok/processzorkártyák bár
+	A \ref{fig:runtime}. ábrát és a \ref{fig:runtime_f}. ábrát összevetve megfigyelhető, hogy a processzorok/processzorkártyák bár
 	gyorsabban futtatják a programot, viszont ezt nagy fajlagos idővel teszik. Konklúzióként elmondható, hogy a program
 	algoritmusához az architektúrájuk nem illeszkedik.
 	
