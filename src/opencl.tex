@@ -99,9 +99,9 @@
         konfiguráció erőforrásaihoz illeszkedni.
 	
 	Taszk parallel módot (\ref{fig:task_parallel} ábra) olyan esetben célszerű
-	használna, ha a bemenet dinamikus mérete a futási időben
-        rendkívül változik
-	illetve a végrehajtandó feladat lazán függenek össze.
+	használni, ha a bemenet dinamikus mérete a futási időben
+        rendkívül változik,
+	illetve a végrehajtandó feladatok lazán függenek össze.
 	
 	\begin{figure*}[!ht]
 		\centering
@@ -143,7 +143,7 @@
 	Ha ez nem lehetséges, akkor a globális memóriához kell fordulnunk.
 	A globális memória avagy a bank szervezésű külső (off-chip) memóriák
 	hozzáférési ideje relatíve nagy így ezek használatát lehetőleg el kell kerülni
-	és a programozónak kell ``cachelni" a lokális memóriába.
+	és a programozónak kell ``cachelni'' a lokális memóriába.
 	
 	Mivel a work-item-ek konkurensen hajtódnak végre, így az általuk közösen elérhető memóriákra
 	(globális, lokális) nézve versenyhelyzetben vannak.

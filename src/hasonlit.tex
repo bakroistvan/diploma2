@@ -41,7 +41,11 @@
 	\begin{equation}
 	T_{\rm fajl} = T \cdot N_{\rm CU} \cdot f_{\rm dev}
 	\end{equation}
-	ahol $T$ a futási idő $N_{\rm CU}$ az eszköz compute-unit száma és $f_{\rm dev}$ az eszköz órajelének frekvenciája.
+	ahol $T$ a futási idő $N_{\rm CU}$ az eszköz compute-unit
+        száma és $f_{\rm dev}$ az eszköz órajelének frekvenciája. Az
+        így definiált $T_{\rm fajl}$ dimenziómentes mennyiség azt
+        becsüli meg, hogy az adott feladatot egy compute-unit mennyi
+        óraciklus alatt oldaná meg a vizsgált architektúrán.
         
 	\begin{table}[H]
 	\footnotesize
@@ -53,8 +57,10 @@
 		\texttt{MAX\_COMPUTE\_UNITS} & 6 & 8 & 224 & 16\\
 		\texttt{MAX\_CLOCK\_FREQUENCY} & 1265 & 3000 & 1100 & 1225\\\hline\hline
 		Futási idő $(T)$ & 114.1~s & 202.0~s & 52.7~s & 7.74~s\\
-		Fajlagos futási idő $(T_{\rm fajl})$ & 0.86$\times 10^6$ & 4.85$\times 10^6$ & 13.00$\times 10^6$ & 0.15$\times 10^6$
+		Fajlagos futási idő $(T_{\rm fajl})$ & 0.86$\times 10^{12}$ & 4.85$\times 10^{12}$ & 13.00$\times 10^{12}$ & 0.15$\times 10^{12}$
 	\end{tabular}
+\todo{a szorzásnál kimaradt a Mega a frekvenciáknál. A következő
+  ábrában is javítsd.}
 	
 	\caption{Eszközök fajlagos futási idejének összehasonlítása}
 	\label{table:results_f}
@@ -70,7 +76,7 @@
 	\end{figure}
 	
 	A program OpenCL-ben készült, így videokártyán és processzoron is tud futni.
-	Ezt a GPU-k lokális memóriájának és annak programozott ``cache" működésének pozitív hatásának tudom be.
+	Ezt a GPU-k lokális memóriájának és annak programozott ``cache'' működésének pozitív hatásának tudom be.
 	
 	A \ref{fig:runtime}.ábrát és a \ref{fig:runtime_f}. ábrát összevetve megfigyelhető, hogy a processzorok/processzorkártyák bár
 	gyorsabban futtatják a programot, viszont ezt nagy fajlagos idővel teszik. Konklúzióként elmondható, hogy a program

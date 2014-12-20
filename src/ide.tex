@@ -9,11 +9,11 @@
 	Az OpenCL-t támogató hardverek legtöbbször CPU-k, GPU-k és az Intel MIC \cite{mic} kártyái.
 	Ezekre való OpenCL kód fejlesztéséhez a gyártók biztosítanak Software Developement Kit-et (SDK).
 	Ezek telepítése szinte bármelyik Linux disztribúción sikerülhet a megfelelő követelmények előzetes telepítése után.
-	A Linux diszrók közül a CentOS-re \cite{centos} esett a választás, ami az Intel Xeon Phi-re való fejlesztés miatt történt.
+	Az elérhető Linux disztribúciók közül a CentOS-re \cite{centos} esett a választás, ami az Intel Xeon Phi-re való fejlesztés miatt történt.
 
 \subsection*{Software Developement Kit-ek (SDK) telepítése} \label{sect:sdk}
 \subsubsection*{nVidia támogatás telepítése}
-	A legtöbb mai Linux disztrók tartalmaznak drivert az nVidia videó kártyákhoz.
+	A legtöbb mai Linux disztribúciók tartalmaznak drivert az nVidia videó kártyákhoz.
 	Ez az open source Nouveau, ami még nem támogatja az OpenCL-t.
 	Így a hivatalos nVidia drivert fel kell telepítenünk.
 	Ehhez először le kell tiltanunk a Nouveau betöltését.
@@ -69,7 +69,7 @@ export NVSDKCOMPUTE_ROOT
 INTELOCLSDKROOT=/opt/intel/opencl
 export INTELOCLSDKROOT
 \end{lstlisting}
-	Mivel az nVidia limitálja a kernel futási időt 5 másodpercben limitálja,
+	Mivel az nVidia a kernel futási időt 5 másodpercben limitálja,
 	hosszabb kernel futási idő esetén a rendszer lefagy.
 	Ezt a korlátozást a \texttt{/etc/X11/xorg.conf} fájl \texttt{Device} részének a
 	következővel való kiegészítésével érhetjük el:

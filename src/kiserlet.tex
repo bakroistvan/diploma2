@@ -22,7 +22,7 @@
 	Ez makroszkópikus skálán az eredetileg szigetelő gáz vezető
         plazmává válását jelenti.  
 
-        A kísérlet során az előbb említett elektromos gázkisülésbe plazma terébe szórt porszemcsék alatt
+        A kísérlet során az előbb említett elektromos gázkisülés plazma terébe szórt porszemcsék alatt
 	100\,nm - 20\,$\mu$m nagyságú részecskéket értünk, melyek anyaga
         lehet például $SiO_2$, $Al_2O_3$ vagy 
 	melamin-formaldehid (MF). A porrészecskék a plazmával
@@ -30,7 +30,7 @@
         és elektronáramok eredményeként. A szemcsék töltés per tömege
         aránya sok nagyságrenddel kisebb a háttérplazma atomos
         összetevőinél (elektronok és ionok),
-        aminek hatására a mozgásuk karakterisztikus ideje légyegesen
+        aminek hatására a mozgásuk karakterisztikus ideje lényegesen
         hosszabb az ionokénál is. A szemcsék
         mozgását a környezetük időben kiátlagolt hatásai dominálják,
         vagyis dinamikájuk jórészt lecsatolódik az atomos háttérplazma
@@ -39,7 +39,6 @@
         egy egykomponensű rendszernek, annak tudatában, hogy a
         a szemcsék töltését és az összetartáshoz szükséges
         peremfeltételeket a gázkisülés biztosítja.
-	
 
 	A porrészecskék transzportjának megértéséhez szükséges a ráható erők azonosítása.
 	A különféle erők nagysága a porrészecskék nagyságával különféleképpen skálázódik. Elhanyagolásokat
@@ -59,13 +58,14 @@
 	\end{description}
 	A poros plazma analízise során fontos szerepet játszik a porrészecskék csatolása.
 	A csatolást gyengének és erősnek kategorizáljuk aszerint, hogy a részecskék szomszédja általi
-	átlagos potenciális energia az átlagos termikus (kinetikus) energiájához képest kissebb vagy
+	átlagos kölcsönhatási potenciális energia (pl. Coulomb
+        energia) az átlagos termikus (kinetikus) energiájához képest kissebb vagy
 	nagyobb.
 	A csatolást a Coulomb csatolási paraméterrel ($\Gamma$) lehet számosítani, ami a szomszédos
 	részecskék Coulomb potenciális és termikus energiájának hányadosa:
 	\begin{equation}
 		\Gamma = \cfrac{1}{4\pi\varepsilon_0}
-                \cfrac{Q^2}{ak_{\rm B}T_d} 
+                \cfrac{Q^2}{ak_{\rm B}T_d},
 	\end{equation}
 	ahol $Q$ a részecskék töltése, $a$ az átlagos részecske
         távolságával arányos Wigner-Seitz sugár (amely a
@@ -79,7 +79,7 @@
 	
         Poros plazmák tudatos alkalmazása jelenleg leginkább
            tudományos természetű, bár létezésükre szennyeződésként
-           az iparben figyeltek fel először. Ez pl. VLSI áramkörök gyártásakor
+           az iparban figyeltek fel először. Ez pl. VLSI áramkörök gyártásakor
            (plazma alapú maratás során) jelentkezik, ahol a kezelt
            felületre visszahulló szemcsék rövidzárlatot és egyéb
            hibákat okozhatnak, ami a kihozatal csökkenéséhez
@@ -120,7 +120,7 @@
 	\end{figure}
 	
 	A kamrát (\ref{fig:kamra}. ábra) Hartmann Péter külső konzulensem építette és a MTA Wigner FK SZFI
-	Gázkisülési Laboratóriumában található.
+	Elektromos Gázkisülések Laboratóriumban található.
 	
 	\noindent A paraméterei:
 	\begin{myitemize*}
@@ -199,14 +199,15 @@
 %----------------------------------------------------------------------------
 	A kísérlet előkészítése a következő lépésekből áll:
 	\begin{enumerate*}
-		\item Elő vákuum (rotációs) szivattyú bekapcsolása,
+		\item Elővákuum (rotációs) szivattyú bekapcsolása,
 		\item Középvákuum (turbómolekuláris) szivattyú bekapcsolása,
 		\item Argon palack megnyitása a megfelelő áramlás szintjére,
 		\item RF gerjesztés bekapcsolása,
 		\item Megvilágító lézer bekapcsolása,
 		\item \label{it:por} Porrészecskék beszórása,
 		\item Kamera bekapcsolása és a megjelenítő szoftver futtatása,
-		\item Ha sok összetapadt porrészecske látható, illetve ha túl sok porrészecske látható, akkor
+		\item Ha sok összetapadt porrészecske látható, illetve
+                  ha túl sok porrészecske van a rendszerben, akkor
 		az RF gerjesztés gyors ki-be kapcsolása után a \ref{it:por}.-től való folytatása a folyamatnak.
 	\end{enumerate*}
 	A \ref{fig:captures}. ábrán látható álló és forgó alsó elektródájú kísérlet során a

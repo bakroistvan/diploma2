@@ -125,7 +125,7 @@ public:
 	méretű. Ennek megfelelően mivel két várakozási listára van szükség és a kamera egy képe minkettőn ``végigmegy'', így
 	\texttt{BUFF\_N=50} hosszúsággal kerül inicializálásra és debug esetén \texttt{Mimage} osztályt illetve release esetén
 	\texttt{uint8\_t*} pointereket tartalmaz, amik közvetlenül/közvetve a képre mutatnak.
-	A képek $\texttt{BUFF\_N} \times 1024 \times 1024$ \texttt{uint8\_t} típusú tömbben kerül tárolásra.
+	A képek $\texttt{BUFF\_N} \times 1024 \times 1024$ \texttt{uint8\_t} típusú tömbben kerülnek tárolásra.
 	Az \texttt{Mimage} osztályt a következőképpen definiáltam:
 	
  %float=!H ,caption=Képet tartalmazó osztály]
@@ -206,7 +206,7 @@ while(!input_queue.push(iim)) { ; }			// a varakosazi lista berakas
 input_mtx.unlock(); // eroforras felszabaditasa (consumer mostmar dolgozhat rajta)
 \end{lstlisting}
 	
-	A fogadott kép az imput bufferbe közepébe kerül bemásolásra. A buffer szélei zérus értékű marad. Erre a kiegészítésre a későbbi
+	A fogadott kép az input bufferbe közepébe kerül bemásolásra. A buffer széle zérus értékű marad. Erre a kiegészítésre a későbbi
 	szűrés során alkalmazott mozgó ablak végett van szükség.
 	
 \section{CProducer szál}
@@ -235,7 +235,7 @@ eredményét az \texttt{output\_queue}-ba sorakoztatja fel a későbbi megjelen�
 	
 	\subsection{Kép kernelekkel történő feldolgozása}
 	A kernelek fordítása és a megfelelő argumentumok beállítása után először a medián szűrés, majd a detektálási szint számítása
-	végül a detektálás történik. Hibakeresés során a közbülső eredmények is visszaolvasásra kerül.
+	végül a detektálás történik. Hibakeresés során a közbülső eredmények is visszaolvasásra kerülnek.
 	
 	
 \section{Consumer szál}
