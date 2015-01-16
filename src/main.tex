@@ -176,10 +176,10 @@
 
 
 \newcommand*{\cleartorightpage}{%
-	\clearpage
+	%\clearpage
 	\ifodd\value{page}
 	\else
-		\mbox{}\clearpage
+		%\mbox{}\clearpage
 	\fi
 }
 
@@ -205,6 +205,9 @@ aboveskip=10pt}
 \begin{document}
 %\singlespacing
 
+\includepdf[pages={1,2}]{diplomaterv.pdf}
+\includepdf[pages={1}]{kiiras.pdf}
+\includepdf[pages={1,2}]{diploma-biralat.pdf}
 %\pagenumbering{arabic}
 %\pagenumbering{roman}
 \onehalfspacing
@@ -222,7 +225,7 @@ aboveskip=10pt}
 
 \include{declaration}
 \cleartorightpage
-\include{project}
+%\include{project}
 
 \include{abstract}
 
